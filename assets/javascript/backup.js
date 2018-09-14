@@ -6,6 +6,7 @@ var fourRate = 0.58
 var fiveRate = 0.03
 var fiveFocusRate = 0.03
 
+
 // Variables Used to Set Ranges to Intepret Math.random() for Rarity Picking
 var fiver = fiveRate + fiveFocusRate
 var fourver = fiver + fourRate
@@ -64,19 +65,40 @@ var totalSummons = 0;
 var isFocusGot = false;
 
 
-
+var pityCounter = Math.floor(totalSummons / 5);
 
 
 // Initialize 
 init();
+getFocus("Red");
+
+function getFocus(snipeColor) {
 
 
-while (isFocusGot === false) {
-    createSummonCircle();
-    snipeCircle("Red");
-    totalSummons += SUMMONS;
-    j++;
-    console.log("Total Summons: " + totalSummons)
+    while (isFocusGot === false) {
+
+        pityCounter = Math.floor(totalSummons / 5);
+        console.log("pity counter: " + pityCounter)
+
+        threeRate = 0.36 - (0.001917 * pityCounter)
+        fourRate = 0.58 - (0.003083 * pityCounter)
+        fiveRate = 0.03 + (0.0025 * pityCounter)
+        fiveFocusRate = 0.03 + (0.0025 * pityCounter)
+
+        console.log("Total Summons: " + totalSummons)
+        console.log("threerate: " + threeRate)
+        console.log("fourrate: " + fourRate)
+        console.log("fiverate: " + fiveRate)
+        console.log("fiveFocusrate: " + fiveFocusRate)
+
+        createSummonCircle();
+        snipeCircle(snipeColor);
+        totalSummons += SUMMONS;
+
+        j++;
+
+    }
+
 }
 
 
@@ -90,10 +112,11 @@ function init() {
 
 
     // Initial Summon Rates
-    threeRate = 0.36
-    fourRate = 0.58
-    fiveRate = 0.03
-    fiveFocusRate = 0.03
+    threeRate = 0.36 - (0.001917 * pityCounter)
+    fourRate = 0.58 - (0.003083 * pityCounter)
+    fiveRate = 0.03 + (0.0025 * pityCounter)
+    fiveFocusRate = 0.03 + (0.0025 * pityCounter)
+
 
     // iables Used to Set Ranges to Intepret Math.random() for Rarity Picking
     fiver = fiveRate + fiveFocusRate
@@ -235,13 +258,11 @@ function createSummonCircle() {
 
 function snipeCircle(targetColor) {
 
-
-
     if (!circleArr.includes(targetColor)) {
 
         var colorsArr = ["Red", "Green", "Blue", "Grey"]
 
-        var index = colorsArr.indexOf(targetColor);    // <-- Not supported in <IE9
+        var index = colorsArr.indexOf(targetColor);
         if (index !== -1) {
             colorsArr.splice(index, 1);
         }
@@ -258,7 +279,6 @@ function snipeCircle(targetColor) {
 
     }
 
-
     if (targetColor === "Green") {
         for (var i = 0; i < 5; i++) {
 
@@ -269,6 +289,7 @@ function snipeCircle(targetColor) {
 
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreens === focusChecker) {
                     console.log("You got your desired green focus hero!")
+                    isFocusGot = true;
                     break;
                 }
             }
@@ -306,6 +327,7 @@ function snipeCircle(targetColor) {
 
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusBlues === focusChecker) {
                     console.log("You got your desired blue focus hero!");
+                    isFocusGot = true;
                     break;
                 }
             }
@@ -323,6 +345,7 @@ function snipeCircle(targetColor) {
 
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreys === focusChecker) {
                     console.log("You got your desired blue focus hero!")
+                    isFocusGot = true;
                     break;
                 }
             }
