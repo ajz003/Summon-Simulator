@@ -52,10 +52,106 @@ var tRGB = ((threeReds + threeGreens + threeBlues) / threeTotal)
 var circleHiddenArr = [];
 var circleArr = [];
 
+// Summon Tracker
+
+var SUMMONS = 0;
+
+var j = 0;
+
+
+var totalSummons = 0;
+
+var isFocusGot = false;
+
+
+
+
+
+// Initialize 
+init();
+
+
+while (isFocusGot === false) {
+    createSummonCircle();
+    snipeCircle("Red");
+    totalSummons += SUMMONS;
+    j++;
+    console.log("Total Summons: " + totalSummons)
+}
+
+
+console.log(circleHiddenArr)
+console.log(circleArr)
+
 
 // ----------------------- Functions
 
+function init() {
+
+
+    // Initial Summon Rates
+    threeRate = 0.36
+    fourRate = 0.58
+    fiveRate = 0.03
+    fiveFocusRate = 0.03
+
+    // iables Used to Set Ranges to Intepret Math.random() for Rarity Picking
+    fiver = fiveRate + fiveFocusRate
+    fourver = fiver + fourRate
+
+    // Focus Unit Numbers
+    fiveFocusReds = 2;
+    fiveFocusGreens = 1;
+    fiveFocusBlues = 0;
+    fiveFocusGreys = 0;
+    fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
+
+    // Five Star Unit Numbers
+    fiveReds = 33;
+    fiveGreens = 15;
+    fiveBlues = 20;
+    fiveGreys = 13;
+    fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
+
+    // Four Star Unit Numbers
+    fourReds = 31;
+    fourGreens = 19;
+    fourBlues = 28;
+    fourGreys = 28;
+    fourTotal = fourReds + fourGreens + fourBlues + fourGreys;
+
+    // Three Star Unit Numbers
+    threeReds = 28;
+    threeGreens = 18;
+    threeBlues = 25;
+    threeGreys = 25;
+    threeTotal = threeReds + threeGreens + threeBlues + threeGreys;
+
+    // iables Used to Set Ranges to Intepret Math.random() for Color Picking
+    ffRG = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
+    ffRGB = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
+    fRG = ((fiveReds + fiveGreens) / fiveTotal)
+    fRGB = ((fiveReds + fiveGreens + fiveBlues) / fiveTotal)
+    frRG = ((fourReds + fourGreens) / fourTotal)
+    frRGB = ((fourReds + fourGreens + fourBlues) / fourTotal)
+    tRG = ((threeReds + threeGreens) / threeTotal)
+    tRGB = ((threeReds + threeGreens + threeBlues) / threeTotal)
+
+    // Arrays to represent the summoning circle
+    circleHiddenArr = [];
+    circleArr = [];
+
+    // Summon Tracker
+
+    SUMMONS = 0;
+}
+
 function createSummonCircle() {
+
+    circleHiddenArr = [];
+    circleArr = [];
+    SUMMONS = 0;
+
     for (var i = 0; i < 5; i++) {
         var rarityPick = Math.random()
         if (rarityPick <= fiveFocusRate) {
@@ -136,6 +232,101 @@ function createSummonCircle() {
         }
     }
 }
-createSummonCircle();
-console.log(circleHiddenArr)
-console.log(circleArr)
+
+function snipeCircle(targetColor) {
+
+
+
+    if (!circleArr.includes(targetColor)) {
+
+        var colorsArr = ["Red", "Green", "Blue", "Grey"]
+
+        var index = colorsArr.indexOf(targetColor);    // <-- Not supported in <IE9
+        if (index !== -1) {
+            colorsArr.splice(index, 1);
+        }
+        var item = colorsArr[Math.floor(Math.random() * colorsArr.length)];
+
+        for (var i = 0; i < 5; i++) {
+
+            if (circleHiddenArr[i] === item) {
+                SUMMONS++;
+                console.log("Summoned " + item + " orb.")
+                break;
+            }
+        }
+
+    }
+
+
+    if (targetColor === "Green") {
+        for (var i = 0; i < 5; i++) {
+
+            if (circleHiddenArr[i] === "Green") {
+                SUMMONS++;
+
+                var focusChecker = Math.floor(Math.random() * fiveFocusGreens + 1);
+
+                if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreens === focusChecker) {
+                    console.log("You got your desired green focus hero!")
+                    break;
+                }
+            }
+        }
+    }
+
+    if (targetColor === "Red") {
+
+        for (var i = 0; i < 5; i++) {
+
+            if (circleHiddenArr[i] === "Red") {
+
+                SUMMONS++;
+                console.log("Summoned red orb.")
+
+                var focusChecker = Math.floor(Math.random() * fiveFocusReds + 1);
+
+                if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusReds === focusChecker) {
+                    console.log("You got your desired red focus hero!")
+                    isFocusGot = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (targetColor === "Blue") {
+
+        for (var i = 0; i < 5; i++) {
+
+            if (circleHiddenArr[i] === "Blue") {
+                SUMMONS++;
+
+                var focusChecker = Math.floor(Math.random() * fiveFocusBlues + 1);
+
+                if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusBlues === focusChecker) {
+                    console.log("You got your desired blue focus hero!");
+                    break;
+                }
+            }
+        }
+    }
+
+    if (targetColor === "Grey") {
+
+        for (var i = 0; i < 5; i++) {
+
+            if (circleHiddenArr[i] === "Grey") {
+                SUMMONS++;
+
+                var focusChecker = Math.floor(Math.random() * fiveFocusGreys + 1);
+
+                if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreys === focusChecker) {
+                    console.log("You got your desired blue focus hero!")
+                    break;
+                }
+            }
+        }
+    }
+
+}
