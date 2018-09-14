@@ -16,7 +16,7 @@ var focusPicked = false;
 var runs = 0;
 var max = 0;
 var trialSum = 0;
-const numberTrials = 1;
+const numberTrials = 10;
 var trials = 0;
 
 
