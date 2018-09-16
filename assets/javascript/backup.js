@@ -56,11 +56,19 @@ var totalSummons = 0;
 var isFocusGot = false;
 var pityCounter = Math.floor(totalSummons / 5);
 var totalOrbs = 0;
+var orbCost = 5;
+
+// ---------------------- APPLICATION -----------------------
+
 
 // Initialize 
+
 init();
+
 // Pick Focus Color
+
 getFocus("Green");
+
 
 // ----------------------- Functions
 
@@ -74,6 +82,7 @@ function getFocus(snipeColor) {
         fiveRate = 0.03 + (0.0025 * pityCounter)
         fiveFocusRate = 0.03 + (0.0025 * pityCounter)
         console.log("Total Summons: " + totalSummons)
+        console.log("Total Orbs Spent: " + totalOrbs)
         console.log("threerate: " + threeRate)
         console.log("fourrate: " + fourRate)
         console.log("fiverate: " + fiveRate)
@@ -148,6 +157,8 @@ function createSummonCircle() {
     SUMMONS = 0;
     // Track number of orbs spent in this circle, sets it to 0 everytime a new circle is summoned.
     ORBS = 0;
+    // Track number of orbs spent in this circle, sets it to 0 everytime a new circle is summoned.
+    orbCost = 5;
 
     // Fills the arrays with random heroes, picking by rarity first, and then by color
     for (var i = 0; i < 5; i++) {
@@ -252,13 +263,13 @@ function snipeCircle(targetColor) {
             var index = colorsArr.indexOf(item);
             colorsArr.splice(index, 1);
             item = colorsArr[Math.floor(Math.random() * colorsArr.length)];
-            console.log("Switched to " + item + " .")
+            console.log("Switched to " + item + ".")
         }
         for (var i = 0; i < 5; i++) {
             if (circleHiddenArr[i] === item) {
                 SUMMONS++;
-
-                console.log("Summoned " + item + " orb.")
+                ORBS += orbCost;
+                console.log("Summoned " + item + " orb.");
                 break;
             }
         }
@@ -269,6 +280,9 @@ function snipeCircle(targetColor) {
         for (var i = 0; i < 5; i++) {
             if (circleHiddenArr[i] === "Green") {
                 SUMMONS++;
+                console.log("Summons before orb cost: " + SUMMONS)
+                ORBS += orbCost;
+                reduceOrbCost();
                 console.log("Summoned Green orb.")
                 var focusChecker = Math.floor(Math.random() * fiveFocusGreens + 1);
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreens === focusChecker) {
@@ -285,6 +299,8 @@ function snipeCircle(targetColor) {
         for (var i = 0; i < 5; i++) {
             if (circleHiddenArr[i] === "Red") {
                 SUMMONS++;
+                ORBS += orbCost;
+                reduceOrbCost();
                 console.log("Summoned red orb.")
                 var focusChecker = Math.floor(Math.random() * fiveFocusReds + 1);
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusReds === focusChecker) {
@@ -301,6 +317,8 @@ function snipeCircle(targetColor) {
         for (var i = 0; i < 5; i++) {
             if (circleHiddenArr[i] === "Blue") {
                 SUMMONS++;
+                ORBS += orbCost;
+                reduceOrbCost();
                 console.log("Summoned blue orb.")
                 var focusChecker = Math.floor(Math.random() * fiveFocusBlues + 1);
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusBlues === focusChecker) {
@@ -317,6 +335,8 @@ function snipeCircle(targetColor) {
         for (var i = 0; i < 5; i++) {
             if (circleHiddenArr[i] === "Grey") {
                 SUMMONS++;
+                ORBS += orbCost;
+                reduceOrbCost();
                 console.log("Summoned Grey orb.")
                 var focusChecker = Math.floor(Math.random() * fiveFocusGreys + 1);
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreys === focusChecker) {
@@ -327,5 +347,16 @@ function snipeCircle(targetColor) {
                 }
             }
         }
+    }
+    console.log("ORBS this circle: " + ORBS);
+}
+
+// Reduces the orb cost per circle based on how many summons already performed
+function reduceOrbCost() {
+    console.log(orbCost)
+    if (SUMMONS > 0 && SUMMONS < 4) {
+        orbCost = 4;
+    } else if (SUMMONS === 4) {
+        orbCost = 3;
     }
 }
