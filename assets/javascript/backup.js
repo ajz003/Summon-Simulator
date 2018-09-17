@@ -10,10 +10,10 @@ var fiver = fiveRate + fiveFocusRate
 var fourver = fiver + fourRate
 
 // Focus Unit Numbers
-var fiveFocusReds = 2;
-var fiveFocusGreens = 1;
-var fiveFocusBlues = 0;
-var fiveFocusGreys = 0;
+var fiveFocusReds;
+var fiveFocusGreens;
+var fiveFocusBlues;
+var fiveFocusGreys;
 var fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
 // Five Star Unit Numbers
 var fiveReds = 33;
@@ -52,13 +52,18 @@ var circleArr = [];
 var SUMMONS = 0;
 var ORBS = 0;
 var j = 0;
+var k = 0;
 var totalSummons = 0;
 var isFocusGot = false;
 var pityCounter = Math.floor(totalSummons / 5);
 var totalOrbs = 0;
 var orbCost = 5;
+var trials = 0;
+const targetTrials = 50;
 
-// ---------------------- APPLICATION -----------------------
+var totalOrbsArr = [];
+
+/* ---------------------- APPLICATION ----------------------- */
 
 
 // Initialize 
@@ -67,12 +72,78 @@ init();
 
 // Pick Focus Color
 
-getFocus("Green");
+getFocus("Red");
+
+console.log(totalOrbsArr);
+
+var sum = totalOrbsArr.reduce((total, amount) => total + amount);
+var average = totalOrbsArr.reduce((total, amount, index, array) => {
+    total += amount;
+    if (index === totalOrbsArr.length - 1) {
+        return total / totalOrbsArr.length;
+    } else {
+        return total;
+    }
+
+})
+
+console.log(sum)
+
+totalOrbsArr = totalOrbsArr.sort((a, b) => a - b);
+
+console.log(totalOrbsArr)
+console.log("Minimum: " + totalOrbsArr[0])
+console.log("Maximum: " + totalOrbsArr[totalOrbsArr.length - 1])
+console.log("Median: " + totalOrbsArr[Math.floor(totalOrbsArr.length / 2)])
+console.log("Average orbs spent until focus: " + average)
+
+
+// From https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-225.php
+const standardDeviation = (arr, usePopulation = false) => {
+    const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+    return Math.sqrt(
+        arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+        (arr.length - (usePopulation ? 0 : 1))
+    );
+};
+
+var std = precise(standardDeviation(totalOrbsArr));
+
+var sem = precise(std / Math.sqrt(targetTrials));
+
+console.log("Average ± Standard Deviation: " + average + " ± " + std);
+console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
+
+console.log("Standard Error of the Mean: " + sem);
+
+console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
+console.log("90% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
+console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
+console.log("95% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
+
+
+
+var trace = {
+    x: totalOrbsArr,
+    type: 'histogram',
+};
+var data = [trace];
+Plotly.newPlot('tester', data);
+
+
+
 
 
 // ----------------------- Functions
 
-// Sets initial variable values
+function precise(x) {
+    return Number.parseFloat(x).toPrecision(2);
+}
+function precise2(x) {
+    return Number.parseFloat(x).toPrecision();
+}
+
+// Runs through summoning sessions until target focus is summoned
 function getFocus(snipeColor) {
     while (isFocusGot === false) {
         pityCounter = Math.floor(totalSummons / 5);
@@ -81,21 +152,38 @@ function getFocus(snipeColor) {
         fourRate = 0.58 - (0.003083 * pityCounter)
         fiveRate = 0.03 + (0.0025 * pityCounter)
         fiveFocusRate = 0.03 + (0.0025 * pityCounter)
-        console.log("Total Summons: " + totalSummons)
-        console.log("Total Orbs Spent: " + totalOrbs)
         console.log("threerate: " + threeRate)
         console.log("fourrate: " + fourRate)
         console.log("fiverate: " + fiveRate)
         console.log("fiveFocusrate: " + fiveFocusRate)
         createSummonCircle();
+        console.log(circleArr);
+        console.log(circleHiddenArr);
         snipeCircle(snipeColor);
         totalSummons += SUMMONS;
         totalOrbs += ORBS;
         j++;
+        console.log("Total Summons: " + totalSummons)
+        console.log("Total Orbs Spent: " + totalOrbs)
+        console.log("Circles Completed: " + j)
+    }
+    if (isFocusGot === true) {
+        totalOrbsArr.push(totalOrbs);
+    }
+    trials++;
+    reset();
+    console.log("trials: " + trials)
+    console.log("target trials: " + targetTrials)
+    if (trials < targetTrials) {
+        getFocus(snipeColor);
     }
 }
-console.log(circleHiddenArr)
-console.log(circleArr)
+
+function reset() {
+    isFocusGot = false;
+    totalOrbs = 0;
+    totalSummons = 0;
+}
 
 function init() {
     // Initial Summon Rates
@@ -107,9 +195,9 @@ function init() {
     fiver = fiveRate + fiveFocusRate
     fourver = fiver + fourRate
     // Focus Unit Numbers
-    fiveFocusReds = 2;
+    fiveFocusReds = 1;
     fiveFocusGreens = 1;
-    fiveFocusBlues = 0;
+    fiveFocusBlues = 1;
     fiveFocusGreys = 0;
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
@@ -254,7 +342,8 @@ function snipeCircle(targetColor) {
 
     var item = targetColor;
     var colorsArr = ["Red", "Green", "Blue", "Grey"]
-    console.log(circleHiddenArr)
+    console.log(circleHiddenArr);
+    console.log(circleArr);
 
     // If the desired color doesn't exist in the summon circle, then:
     if (!circleHiddenArr.includes(item)) {
@@ -284,12 +373,15 @@ function snipeCircle(targetColor) {
                 ORBS += orbCost;
                 reduceOrbCost();
                 console.log("Summoned Green orb.")
-                var focusChecker = Math.floor(Math.random() * fiveFocusGreens + 1);
+                var focusChecker = Math.floor(Math.random() * fiveFocusGreens) + 1;
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreens === focusChecker) {
                     console.log("You got your desired green focus hero!")
                     isFocusGot = true;
                     console.log(totalSummons)
                     break;
+                }
+                else if (circleArr[i] === targetColor + " Five Star Focus") {
+                    console.log("You got an undesired green focus hero!")
                 }
             }
         }
@@ -302,12 +394,15 @@ function snipeCircle(targetColor) {
                 ORBS += orbCost;
                 reduceOrbCost();
                 console.log("Summoned red orb.")
-                var focusChecker = Math.floor(Math.random() * fiveFocusReds + 1);
+                var focusChecker = Math.floor(Math.random() * fiveFocusReds) + 1;
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusReds === focusChecker) {
                     console.log("You got your desired red focus hero!")
                     isFocusGot = true;
                     console.log(totalSummons)
                     break;
+                }
+                else if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusReds !== focusChecker) {
+                    console.log("You got an undesired red focus hero!")
                 }
             }
         }
@@ -320,12 +415,15 @@ function snipeCircle(targetColor) {
                 ORBS += orbCost;
                 reduceOrbCost();
                 console.log("Summoned blue orb.")
-                var focusChecker = Math.floor(Math.random() * fiveFocusBlues + 1);
+                var focusChecker = Math.floor(Math.random() * fiveFocusBlues) + 1;
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusBlues === focusChecker) {
                     console.log("You got your desired blue focus hero!");
                     isFocusGot = true;
                     console.log(totalSummons)
                     break;
+                }
+                else if (circleArr[i] === targetColor + " Five Star Focus") {
+                    console.log("You got an undesired blue focus hero!")
                 }
             }
         }
@@ -338,12 +436,15 @@ function snipeCircle(targetColor) {
                 ORBS += orbCost;
                 reduceOrbCost();
                 console.log("Summoned Grey orb.")
-                var focusChecker = Math.floor(Math.random() * fiveFocusGreys + 1);
+                var focusChecker = Math.floor(Math.random() * fiveFocusGreys) + 1;
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusGreys === focusChecker) {
                     console.log("You got your desired grey focus hero!")
                     isFocusGot = true;
                     console.log(totalSummons)
                     break;
+                }
+                else if (circleArr[i] === targetColor + " Five Star Focus") {
+                    console.log("You got an undesired grey focus hero!")
                 }
             }
         }
@@ -360,3 +461,5 @@ function reduceOrbCost() {
         orbCost = 3;
     }
 }
+
+
