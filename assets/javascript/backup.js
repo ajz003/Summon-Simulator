@@ -59,7 +59,7 @@ var pityCounter = Math.floor(totalSummons / 5);
 var totalOrbs = 0;
 var orbCost = 5;
 var trials = 0;
-const targetTrials = 50;
+const targetTrials = 100;
 
 var totalOrbsArr = [];
 
@@ -72,7 +72,7 @@ init();
 
 // Pick Focus Color
 
-getFocus("Red");
+getFocus("Green");
 
 console.log(totalOrbsArr);
 
@@ -86,6 +86,9 @@ var average = totalOrbsArr.reduce((total, amount, index, array) => {
     }
 
 })
+
+
+// Statistics
 
 console.log(sum)
 
@@ -111,9 +114,10 @@ var std = precise(standardDeviation(totalOrbsArr));
 
 var sem = precise(std / Math.sqrt(targetTrials));
 
+// Statistics Display
+
 console.log("Average ± Standard Deviation: " + average + " ± " + std);
 console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
-
 console.log("Standard Error of the Mean: " + sem);
 
 console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
@@ -122,13 +126,61 @@ console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.l
 console.log("95% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
 
 
+// Histogram 
 
 var trace = {
     x: totalOrbsArr,
     type: 'histogram',
+    autobinx: false,
+    xbins: {
+        end: 500,
+        size: 50,
+        start: 0
+    }
 };
 var data = [trace];
-Plotly.newPlot('tester', data);
+
+var layout = {
+    title: 'Orbs to Summon Desired Focus',
+    xaxis: {
+        title: 'Orbs spent',
+        titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'lightgrey'
+        },
+        showticklabels: true,
+        tickangle: 'auto',
+        tickfont: {
+            family: 'Old Standard TT, serif',
+            size: 14,
+            color: 'black'
+        },
+        exponentformat: 'e',
+        showexponent: 'all'
+    },
+    yaxis: {
+        title: 'Number in of trials in each group',
+        titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'lightgrey'
+        },
+        showticklabels: true,
+        tickangle: 45,
+        tickfont: {
+            family: 'Old Standard TT, serif',
+            size: 14,
+            color: 'black'
+        },
+        exponentformat: 'e',
+        showexponent: 'all'
+    }
+};
+
+
+Plotly.newPlot('tester', data, layout);
+
 
 
 
@@ -195,10 +247,10 @@ function init() {
     fiver = fiveRate + fiveFocusRate
     fourver = fiver + fourRate
     // Focus Unit Numbers
-    fiveFocusReds = 1;
-    fiveFocusGreens = 1;
+    fiveFocusReds = 0;
+    fiveFocusGreens = 2;
     fiveFocusBlues = 1;
-    fiveFocusGreys = 0;
+    fiveFocusGreys = 1;
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
     fiveReds = 33;

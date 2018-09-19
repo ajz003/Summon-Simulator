@@ -1,0 +1,8 @@
+.orb {
+    height: 100px;
+}
+
+#orb-picker-container {
+    border: 10px solid yellow;
+    background-color: lightgrey;
+}
