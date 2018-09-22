@@ -59,7 +59,7 @@ var pityCounter = Math.floor(totalSummons / 5);
 var totalOrbs = 0;
 var orbCost = 5;
 var trials = 0;
-const targetTrials = 100;
+const targetTrials = 25;
 
 var totalOrbsArr = [];
 
@@ -247,10 +247,10 @@ function init() {
     fiver = fiveRate + fiveFocusRate
     fourver = fiver + fourRate
     // Focus Unit Numbers
-    fiveFocusReds = 0;
-    fiveFocusGreens = 2;
-    fiveFocusBlues = 1;
-    fiveFocusGreys = 1;
+    fiveFocusReds = 2;
+    fiveFocusGreens = 1;
+    fiveFocusBlues = 0;
+    fiveFocusGreys = 0;
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
     fiveReds = 33;

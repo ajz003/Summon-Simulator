@@ -1,8 +1,27 @@
 .orb {
-    height: 100px;
+    width: 100%;
+
 }
 
 #orb-picker-container {
     border: 10px solid yellow;
     background-color: lightgrey;
+}
+
+@font-face {
+    font-family: 'main';
+    src: url('../fonts/Fire_Emblem_Heroes_Font.ttf') format('truetype');
+  }
+
+h1 {
+      font-family: 'main';
+      color: gold;
+  }
+
+  .arrows {
+      height: 30px;
+  }
+
+body {
+    background-color:black;
 }
