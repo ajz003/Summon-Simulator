@@ -1,11 +1,12 @@
+
 .orb {
     width: 100%;
-
+    box-sizing: content-box;
 }
 
 #orb-picker-container {
     border: 10px solid yellow;
-    background-color: lightgrey;
+    background-color: silver;
 }
 
 @font-face {
@@ -14,14 +15,30 @@
   }
 
 h1 {
-      font-family: 'main';
+      font-family: 'main', Arial, Helvetica, sans-serif;
       color: gold;
   }
 
+p {
+    font-family: 'main', Arial, Helvetica, sans-serif;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: white;
+    font-size: 18px;
+}
   .arrows {
       height: 30px;
   }
 
 body {
     background-color:black;
+}
+
+#summon-button {
+    margin-top: 10px;
+}
+
+.selectedOrb {
+    background-color: gold;
+    border: 3px solid white;
+    border-radius: 25px;
 }

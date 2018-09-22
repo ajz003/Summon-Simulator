@@ -59,131 +59,217 @@ var pityCounter = Math.floor(totalSummons / 5);
 var totalOrbs = 0;
 var orbCost = 5;
 var trials = 0;
-const targetTrials = 25;
+var targetTrials;
+var snipingColor;
 
 var totalOrbsArr = [];
 
-/* ---------------------- APPLICATION ----------------------- */
 
+// ---------------- jQuery Functions
 
-// Initialize 
-
-init();
-
-// Pick Focus Color
-
-getFocus("Green");
-
-console.log(totalOrbsArr);
-
-var sum = totalOrbsArr.reduce((total, amount) => total + amount);
-var average = totalOrbsArr.reduce((total, amount, index, array) => {
-    total += amount;
-    if (index === totalOrbsArr.length - 1) {
-        return total / totalOrbsArr.length;
+$(".orb").on("click", function () {
+    if ($(this).hasClass("selectedOrb")) {
+        $(this).removeClass("selectedOrb");
+        snipingColor = undefined;
     } else {
-        return total;
+        $(".orb").removeClass("selectedOrb");
+        $(this).addClass("selectedOrb");
     }
-
-})
-
-
-// Statistics
-
-console.log(sum)
-
-totalOrbsArr = totalOrbsArr.sort((a, b) => a - b);
-
-console.log(totalOrbsArr)
-console.log("Minimum: " + totalOrbsArr[0])
-console.log("Maximum: " + totalOrbsArr[totalOrbsArr.length - 1])
-console.log("Median: " + totalOrbsArr[Math.floor(totalOrbsArr.length / 2)])
-console.log("Average orbs spent until focus: " + average)
-
-
-// From https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-225.php
-const standardDeviation = (arr, usePopulation = false) => {
-    const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
-    return Math.sqrt(
-        arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
-        (arr.length - (usePopulation ? 0 : 1))
-    );
-};
-
-var std = precise(standardDeviation(totalOrbsArr));
-
-var sem = precise(std / Math.sqrt(targetTrials));
-
-// Statistics Display
-
-console.log("Average ± Standard Deviation: " + average + " ± " + std);
-console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
-console.log("Standard Error of the Mean: " + sem);
-
-console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
-console.log("90% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
-console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
-console.log("95% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
-
-
-// Histogram 
-
-var trace = {
-    x: totalOrbsArr,
-    type: 'histogram',
-    autobinx: false,
-    xbins: {
-        end: 500,
-        size: 50,
-        start: 0
+});
+$("#red-down").on("click", function () {
+    let focusRed = $("#red-orbs").attr("value");
+    if (focusRed > 0) {
+        focusRed--;
+    } else {
+        console.log("Cannot set below 0!")
     }
-};
-var data = [trace];
-
-var layout = {
-    title: 'Orbs to Summon Desired Focus',
-    xaxis: {
-        title: 'Orbs spent',
-        titlefont: {
-            family: 'Arial, sans-serif',
-            size: 18,
-            color: 'lightgrey'
-        },
-        showticklabels: true,
-        tickangle: 'auto',
-        tickfont: {
-            family: 'Old Standard TT, serif',
-            size: 14,
-            color: 'black'
-        },
-        exponentformat: 'e',
-        showexponent: 'all'
-    },
-    yaxis: {
-        title: 'Number in of trials in each group',
-        titlefont: {
-            family: 'Arial, sans-serif',
-            size: 18,
-            color: 'lightgrey'
-        },
-        showticklabels: true,
-        tickangle: 45,
-        tickfont: {
-            family: 'Old Standard TT, serif',
-            size: 14,
-            color: 'black'
-        },
-        exponentformat: 'e',
-        showexponent: 'all'
+    $("#red-orbs").attr("value", focusRed);
+    fiveFocusReds = focusRed;
+});
+$("#red-up").on("click", function () {
+    let focusRed = $("#red-orbs").attr("value");
+    focusRed++;
+    $("#red-orbs").attr("value", focusRed);
+    fiveFocusReds = focusRed;
+});
+$("#blue-down").on("click", function () {
+    let focusBlue = $("#blue-orbs").attr("value");
+    if (focusBlue > 0) {
+        focusBlue--;
+    } else {
+        console.log("Cannot set below 0!")
     }
-};
+    $("#blue-orbs").attr("value", focusBlue);
+    fiveFocusBlues = focusBlue;
+});
+$("#blue-up").on("click", function () {
+    let focusBlue = $("#blue-orbs").attr("value");
+    focusBlue++;
+    $("#blue-orbs").attr("value", focusBlue);
+    fiveFocusBlues = focusBlue;
+});
+$("#green-down").on("click", function () {
+    let focusGreen = $("#green-orbs").attr("value");
+    if (focusGreen > 0) {
+        focusGreen--;
+    } else {
+        console.log("Cannot set below 0!")
+    }
+    $("#green-orbs").attr("value", focusGreen);
+    fiveFocusGreens = focusGreen;
+});
+$("#green-up").on("click", function () {
+    let focusGreen = $("#green-orbs").attr("value");
+    focusGreen++;
+    $("#green-orbs").attr("value", focusGreen);
+    fiveFocusGreens = focusGreen;
+});
+$("#grey-down").on("click", function () {
+    let focusGrey = $("#grey-orbs").attr("value");
+    if (focusGrey > 0) {
+        focusGrey--;
+    } else {
+        console.log("Cannot set below 0!")
+    }
+    $("#grey-orbs").attr("value", focusGrey);
+    fiveFocusGreys = focusGrey;
+});
+$("#grey-up").on("click", function () {
+    let focusGrey = $("#grey-orbs").attr("value");
+    focusGrey++;
+    $("#grey-orbs").attr("value", focusGrey);
+    fiveFocusGreyss = focusGrey;
+});
+
+$("#summon-button").on("click", function () {
+
+    targetTrials = $("#trials").val().trim();
+    console.log(targetTrials);
+    console.log = function () { };
 
 
-Plotly.newPlot('tester', data, layout);
+    init();
+    getFocus("Green");
+    console.log(totalOrbsArr);
 
 
 
 
+
+    /* ---------------------- APPLICATION ----------------------- */
+
+
+
+
+
+    var sum = totalOrbsArr.reduce((total, amount) => total + amount);
+    var average = totalOrbsArr.reduce((total, amount, index, array) => {
+        total += amount;
+        if (index === totalOrbsArr.length - 1) {
+            return total / totalOrbsArr.length;
+        } else {
+            return total;
+        }
+
+    })
+
+
+    // Statistics
+
+    console.log(sum)
+
+    totalOrbsArr = totalOrbsArr.sort((a, b) => a - b);
+
+    console.log(totalOrbsArr)
+    console.log("Minimum: " + totalOrbsArr[0])
+    console.log("Maximum: " + totalOrbsArr[totalOrbsArr.length - 1])
+    console.log("Median: " + totalOrbsArr[Math.floor(totalOrbsArr.length / 2)])
+    console.log("Average orbs spent until focus: " + average)
+
+
+    // From https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-225.php
+    const standardDeviation = (arr, usePopulation = false) => {
+        const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+        return Math.sqrt(
+            arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+            (arr.length - (usePopulation ? 0 : 1))
+        );
+    };
+
+    var std = precise(standardDeviation(totalOrbsArr));
+
+    var sem = precise(std / Math.sqrt(targetTrials));
+
+    // Statistics Display
+
+    console.log("Average ± Standard Deviation: " + average + " ± " + std);
+    console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
+    console.log("Standard Error of the Mean: " + sem);
+
+    console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
+    console.log("90% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
+    console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
+    console.log("95% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
+
+
+    // Histogram 
+
+    var trace = {
+        x: totalOrbsArr,
+        type: 'histogram',
+        autobinx: false,
+        xbins: {
+            end: 500,
+            size: 50,
+            start: 0
+        }
+    };
+    var data = [trace];
+
+    var layout = {
+        title: 'Orbs to Summon Desired Focus',
+        xaxis: {
+            title: 'Orbs spent',
+            titlefont: {
+                family: 'Arial, sans-serif',
+                size: 18,
+                color: 'lightgrey'
+            },
+            showticklabels: true,
+            tickangle: 'auto',
+            tickfont: {
+                family: 'Old Standard TT, serif',
+                size: 14,
+                color: 'black'
+            },
+            exponentformat: 'e',
+            showexponent: 'all'
+        },
+        yaxis: {
+            title: 'Number in of trials in each group',
+            titlefont: {
+                family: 'Arial, sans-serif',
+                size: 18,
+                color: 'lightgrey'
+            },
+            showticklabels: true,
+            tickangle: 45,
+            tickfont: {
+                family: 'Old Standard TT, serif',
+                size: 14,
+                color: 'black'
+            },
+            exponentformat: 'e',
+            showexponent: 'all'
+        }
+    };
+
+
+    Plotly.newPlot('tester', data, layout);
+
+
+
+});
 
 
 // ----------------------- Functions
@@ -284,6 +370,9 @@ function init() {
     circleArr = [];
     // Summon Tracker
     SUMMONS = 0;
+
+    totalOrbsArr = [];
+    trials = 0;
 }
 
 // Fills an array to represent the Summoning Circle:
