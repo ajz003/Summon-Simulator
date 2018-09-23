@@ -9,6 +9,7 @@
 #orb-picker-container {
     border: 10px solid yellow;
     background-color: silver;
+    border-radius: 15px;
 }
 
 @font-face {
@@ -43,4 +44,10 @@ body {
     background-color: gold;
     border: 3px solid white;
     border-radius: 25px;
+}
+
+#histo-holder {
+    border: 10px solid yellow;
+    background-color: silver;
+    border-radius: 15px;
 }

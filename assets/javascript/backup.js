@@ -60,7 +60,7 @@ var totalOrbs = 0;
 var orbCost = 5;
 var trials = 0;
 var targetTrials;
-var snipingColor;
+var snipeColor;
 
 var totalOrbsArr = [];
 
@@ -70,12 +70,38 @@ var totalOrbsArr = [];
 $(".orb").on("click", function () {
     if ($(this).hasClass("selectedOrb")) {
         $(this).removeClass("selectedOrb");
-        snipingColor = undefined;
+        snipeColor = undefined;
     } else {
         $(".orb").removeClass("selectedOrb");
         $(this).addClass("selectedOrb");
+        let color = $(this).attr("id");
+
+        switch (color) {
+
+            case "red-orb":
+            snipeColor = "Red";
+            break;
+
+            case "blue-orb":
+            snipeColor = "Blue";
+            break;
+
+            case "green-orb":
+            snipeColor = "Green";
+            break;
+
+            case "grey-orb":
+            snipeColor = "Grey";
+            break;
+
+
+        }
+        console.log(snipeColor);
     }
 });
+
+
+
 $("#red-down").on("click", function () {
     let focusRed = $("#red-orbs").attr("value");
     if (focusRed > 0) {
@@ -147,9 +173,33 @@ $("#summon-button").on("click", function () {
     console.log(targetTrials);
     console.log = function () { };
 
+    let checkColor = false;
+
+
+    let checkRed = $("#red-orbs").attr("value");
+    let checkBlue = $("#blue-orbs").attr("value");
+    let checkGreen = $("#green-orbs").attr("value");
+    let checkGrey = $("#grey-orbs").attr("value");
+
+    if (snipeColor === "Red" && checkRed > 0) {
+        checkColor = true;
+    }
+    if (snipeColor === "Blue" && checkBlue > 0) {
+        checkColor = true;
+    }
+    if (snipeColor === "Green" && checkGreen > 0) {
+        checkColor = true;
+    }
+    if (snipeColor === "Grey" && checkGrey > 0) {
+        checkColor = true;
+    }
+
+    if (snipeColor !== undefined && checkColor === true) {
+        console.log("Go for it");
+    
 
     init();
-    getFocus("Green");
+    getFocus(snipeColor);
     console.log(totalOrbsArr);
 
 
@@ -267,7 +317,11 @@ $("#summon-button").on("click", function () {
 
     Plotly.newPlot('tester', data, layout);
 
-
+    } if (snipeColor === undefined) {
+        console.log("Pick a color!");
+    } if (checkColor === false) {
+        console.log("Target color is set to 0!")
+    }
 
 });
 
