@@ -138,7 +138,7 @@ $("#grey-up").on("click", function () {
     let focusGrey = $("#grey-orbs").attr("value");
     focusGrey++;
     $("#grey-orbs").attr("value", focusGrey);
-    fiveFocusGreyss = focusGrey;
+    fiveFocusGreys = focusGrey;
 });
 
 $("#summon-button").on("click", function () {

@@ -2,6 +2,8 @@
 .orb {
     width: 100%;
     box-sizing: content-box;
+    border: 3px solid transparent;
+    border-radius: 25px;
 }
 
 #orb-picker-container {
@@ -19,11 +21,11 @@ h1 {
       color: gold;
   }
 
-p {
+p, label {
     font-family: 'main', Arial, Helvetica, sans-serif;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
 }
   .arrows {
       height: 30px;
