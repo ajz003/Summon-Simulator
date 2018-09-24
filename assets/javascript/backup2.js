@@ -176,10 +176,10 @@ $("#summon-button").on("click", function () {
     let checkColor = false;
 
 
-    let checkRed = parseFloat($("#red-orbs").val())
-    let checkBlue = parseFloat($("#blue-orbs").val())
-    let checkGreen = parseFloat($("#green-orbs").val())
-    let checkGrey = parseFloat($("#grey-orbs").val())
+    let checkRed = $("#red-orbs").val();
+    let checkBlue = $("#blue-orbs").val();
+    let checkGreen = $("#green-orbs").val();
+    let checkGrey = $("#grey-orbs").val();
 
     if (snipeColor === "Red" && checkRed > 0) {
         checkColor = true;
@@ -199,9 +199,28 @@ $("#summon-button").on("click", function () {
     
 
     init();
-    getFocus(snipeColor);
-    console.log(totalOrbsArr);
 
+        pityCounter = Math.floor(totalSummons / 5);
+        console.log("pity counter: " + pityCounter)
+        threeRate = 0.36 - (0.001917 * pityCounter)
+        fourRate = 0.58 - (0.003083 * pityCounter)
+        fiveRate = 0.03 + (0.0025 * pityCounter)
+        fiveFocusRate = 0.03 + (0.0025 * pityCounter)
+        console.log("threerate: " + threeRate)
+        console.log("fourrate: " + fourRate)
+        console.log("fiverate: " + fiveRate)
+        console.log("fiveFocusrate: " + fiveFocusRate)
+        createSummonCircle();
+        console.log(circleArr);
+        console.log(circleHiddenArr);
+        snipeCircle(snipeColor);
+        totalSummons += SUMMONS;
+        totalOrbs += ORBS;
+        j++;
+        console.log("Total Summons: " + totalSummons)
+        console.log("Total Orbs Spent: " + totalOrbs)
+        console.log("Circles Completed: " + j)
+    
 
 
 
@@ -212,110 +231,15 @@ $("#summon-button").on("click", function () {
 
 
 
-    var sum = totalOrbsArr.reduce((total, amount) => total + amount);
-    var average = totalOrbsArr.reduce((total, amount, index, array) => {
-        total += amount;
-        if (index === totalOrbsArr.length - 1) {
-            return total / totalOrbsArr.length;
-        } else {
-            return total;
-        }
 
-    })
 
 
     // Statistics
 
-    console.log(sum)
-
-    totalOrbsArr = totalOrbsArr.sort((a, b) => a - b);
-
-    console.log(totalOrbsArr)
-    console.log("Minimum: " + totalOrbsArr[0])
-    console.log("Maximum: " + totalOrbsArr[totalOrbsArr.length - 1])
-    console.log("Median: " + totalOrbsArr[Math.floor(totalOrbsArr.length / 2)])
-    console.log("Average orbs spent until focus: " + average)
+   
 
 
-    // From https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-225.php
-    const standardDeviation = (arr, usePopulation = false) => {
-        const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
-        return Math.sqrt(
-            arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
-            (arr.length - (usePopulation ? 0 : 1))
-        );
-    };
 
-    var std = precise(standardDeviation(totalOrbsArr));
-
-    var sem = precise(std / Math.sqrt(targetTrials));
-
-    // Statistics Display
-
-    console.log("Average ± Standard Deviation: " + average + " ± " + std);
-    console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
-    console.log("Standard Error of the Mean: " + sem);
-
-    console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
-    console.log("90% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
-    console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
-    console.log("95% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
-
-
-    // Histogram 
-
-    var trace = {
-        x: totalOrbsArr,
-        type: 'histogram',
-        autobinx: false,
-        xbins: {
-            end: 500,
-            size: 50,
-            start: 0
-        }
-    };
-    var data = [trace];
-
-    var layout = {
-        title: 'Orbs to Summon Desired Focus',
-        xaxis: {
-            title: 'Orbs spent',
-            titlefont: {
-                family: 'Arial, sans-serif',
-                size: 18,
-                color: 'lightgrey'
-            },
-            showticklabels: true,
-            tickangle: 'auto',
-            tickfont: {
-                family: 'Old Standard TT, serif',
-                size: 14,
-                color: 'black'
-            },
-            exponentformat: 'e',
-            showexponent: 'all'
-        },
-        yaxis: {
-            title: 'Number in of trials in each group',
-            titlefont: {
-                family: 'Arial, sans-serif',
-                size: 18,
-                color: 'lightgrey'
-            },
-            showticklabels: true,
-            tickangle: 45,
-            tickfont: {
-                family: 'Old Standard TT, serif',
-                size: 14,
-                color: 'black'
-            },
-            exponentformat: 'e',
-            showexponent: 'all'
-        }
-    };
-
-
-    Plotly.newPlot('tester', data, layout);
 
     } if (snipeColor === undefined) {
         console.log("Pick a color!");
@@ -375,10 +299,6 @@ function reset() {
     isFocusGot = false;
     totalOrbs = 0;
     totalSummons = 0;
-    fiveFocusReds = parseFloat($("#red-orbs").val())
-    fiveFocusGreens = parseFloat($("#green-orbs").val())
-    fiveFocusBlues = parseFloat($("#blue-orbs").val())
-    fiveFocusGreys = parseFloat($("#grey-orbs").val())
 }
 
 function init() {
@@ -396,6 +316,7 @@ function init() {
     fiveFocusBlues = parseFloat($("#blue-orbs").val())
     fiveFocusGreys = parseFloat($("#grey-orbs").val())
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
+    console.log(fiveFocusTotal)
     // Five Star Unit Numbers
     fiveReds = 33;
     fiveGreens = 15;
@@ -417,6 +338,8 @@ function init() {
     // Variables Used to Set Ranges to Intepret Math.random() for Color Picking
     ffRG = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
     ffRGB = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
+    console.log(ffRG)
+    console.log(ffRGB)
     fRG = ((fiveReds + fiveGreens) / fiveTotal)
     fRGB = ((fiveReds + fiveGreens + fiveBlues) / fiveTotal)
     frRG = ((fourReds + fourGreens) / fourTotal)
@@ -435,7 +358,7 @@ function init() {
 
 // Fills an array to represent the Summoning Circle:
 function createSummonCircle() {
-
+    console.log("From " + ffRG + " to " + ffRGB);
     // This circleHiddenArr array only shows the summon colors, but...
     circleHiddenArr = [];
     // This circleArr array contains the color, rarity, and whether it is a focus unit or not.
