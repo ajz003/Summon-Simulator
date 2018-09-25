@@ -7,6 +7,10 @@
 }
 
 
+.arrows {
+    height: 30px;
+    width: auto;
+}
 
 @font-face {
     font-family: 'main';
@@ -24,9 +28,7 @@ p, label {
     color: black;
     font-size: 20px;
 }
-  .arrows {
-      height: 30px;
-  }
+
 
 body {
     background-color:black;
@@ -53,3 +55,19 @@ body {
     padding: 20px;
 }
 
+
+@media (min-width: 992px) { 
+    
+
+    .orb {
+        width: 80%;
+        box-sizing: content-box;
+        border: 3px solid transparent;
+        border-radius: 25px;
+    }
+
+    .arrows {
+        height: auto;
+        width: 100px;
+    }
+}
