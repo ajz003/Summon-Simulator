@@ -1,43 +1,29 @@
-var testArr = [0, 3, 5, 7, 8, 12, 14];
+var testArr = [0, 4, 7, 10, 20, 50, 100]
 
-function test(arg) {
-
-
-    var hi = testArr.length - 1
+function test(orbs, arr) {
+    var hi = arr.length - 1
     var lo = 0;
-
     while (lo < hi) {
-
-        hi = testArr.length - 1
+        hi = arr.length - 1
         lo = 0;
-        let mid = Math.floor(testArr.length / 2);
-
-        console.log(testArr)
+        var mid = Math.floor(arr.length / 2);
+        console.log(arr)
         console.log("mid: " + mid)
-
-        if (arg < testArr[mid]) {
-
-            testArr.length = mid;
-
+        console.log("hi: " + hi)
+        if (orbs < arr[mid]) {
+            arr.length = mid;
         }
-
-        if (arg > testArr[mid]) {
-
-            testArr = testArr.slice(mid, testArr.length);
-            console.log(testArr)
-
+        if (orbs > arr[mid]) {
+            arr = arr.slice(mid, arr.length);
+            console.log(arr)
         }
-
-        if (arg === testArr[mid]) {
-            console.log(testArr)
+        if (orbs === arr[mid]) {
+            console.log(arr)
+            console.log("Final result: " + arr[mid]);
             return console.log("The truth is in here!")
         }
-
-        console.log(testArr.length)
+        console.log(arr.length)
     }
-
-    console.log("NOpe")
-
+    console.log("Final result: " + arr[mid]);
 }
-
-test(14);
+test(49, testArr);

@@ -275,7 +275,7 @@ $("#summon-button").on("click", function () {
     let focus9510 = focus95*11;
 
     $("#focus-90").html(`90% chance to get your focus: ${focus90} orbs`);
-    $("#focus-95").html(`95% chance to get focus (+10): ${focus95} orbs`);
+    $("#focus-95").html(`95% chance to get focus: ${focus95} orbs`);
     $("#focus-90-10").html(`90% chance to get focus (+10): ${focus9010} orbs`);
     $("#focus-95-10").html(`95% chance to get focus (+10): ${focus9510} orbs`);
 
