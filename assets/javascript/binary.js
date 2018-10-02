@@ -1,29 +1,46 @@
-var testArr = [0, 4, 7, 10, 20, 50, 100]
+var testArr = [14, 14, 23, 35, 37, 38, 39, 45, 45, 52, 52, 54, 57, 59, 71, 74, 75, 79, 88, 88, 120, 155, 164, 176, 195]
 
-function test(orbs, arr) {
-    var hi = arr.length - 1
+function find(orbs, arr) {
+
+    // Setting up additional arrays to avoid changing the parameter arr
+
+    var originalArr = arr.slice();
+    var slicedArr = arr.slice()
+
+    // Binary Search
+    var hi = slicedArr.length - 1
     var lo = 0;
     while (lo < hi) {
-        hi = arr.length - 1
+        hi = slicedArr.length - 1
         lo = 0;
-        var mid = Math.floor(arr.length / 2);
-        console.log(arr)
+        var mid = Math.floor(slicedArr.length / 2);
+        console.log(slicedArr)
         console.log("mid: " + mid)
         console.log("hi: " + hi)
-        if (orbs < arr[mid]) {
-            arr.length = mid;
+        console.log("orbs: " + orbs)
+        if (orbs < slicedArr[mid]) {
+            slicedArr.length = mid;
         }
-        if (orbs > arr[mid]) {
-            arr = arr.slice(mid, arr.length);
-            console.log(arr)
+        if (orbs > slicedArr[mid]) {
+            slicedArr = slicedArr.slice(mid, slicedArr.length);
+            console.log(slicedArr)
         }
-        if (orbs === arr[mid]) {
-            console.log(arr)
-            console.log("Final result: " + arr[mid]);
-            return console.log("The truth is in here!")
+        if (orbs === slicedArr[mid]) {
+            console.log(slicedArr)
+            console.log("Final result: " + slicedArr[mid]);
+            hi = 1
+            lo = 3
+
         }
-        console.log(arr.length)
+        console.log("test: "+ slicedArr.length)
     }
-    console.log("Final result: " + arr[mid]);
+    console.log("Final result: " + slicedArr[mid]);
+    var midIndex = slicedArr[mid]
+console.log("index of: " + originalArr.indexOf(midIndex))
+
+
+console.log("orig arr.length: " + originalArr.length)
+return (((originalArr.indexOf(midIndex)+1)/originalArr.length)*100)
+
 }
-test(49, testArr);
+console.log("resultssssss: " + find(46, testArr))

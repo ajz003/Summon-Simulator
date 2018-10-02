@@ -343,6 +343,13 @@ $("#summon-button").on("click", function () {
 
 });
 
+$("#with-these-orbs-submit").on("click", function() {
+    var orbsHave = parseFloat($("#with-these-orbs").val());
+    console.log("total orbs arr: " + totalOrbsArr)
+    var result = find(orbsHave, totalOrbsArr);
+    $("#with-these-orbs-result").html("Chance to get focus with your amount of orbs: " + result + "%")
+})
+
 
 // ----------------------- Functions
 
