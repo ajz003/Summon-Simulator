@@ -59,15 +59,12 @@ body {
 @media (min-width: 992px) { 
     
 
-    .orb {
-        width: 80%;
-        box-sizing: content-box;
-        border: 3px solid transparent;
-        border-radius: 25px;
+    .main {
+        width: 800px;
     }
 
-    .arrows {
-        height: auto;
-        width: 100px;
+    #these-orbs {
+        text-align: center;
     }
+
 }
