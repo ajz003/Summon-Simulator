@@ -16,15 +16,15 @@ var fiveFocusBlues;
 var fiveFocusGreys;
 var fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
 // Five Star Unit Numbers
-var fiveReds = 33;
-var fiveGreens = 15;
-var fiveBlues = 20;
-var fiveGreys = 13;
+var fiveReds = 39;
+var fiveGreens = 18;
+var fiveBlues = 25;
+var fiveGreys = 16;
 var fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
 // Four Star Unit Numbers
-var fourReds = 31;
+var fourReds = 32;
 var fourGreens = 19;
-var fourBlues = 28;
+var fourBlues = 29;
 var fourGreys = 28;
 var fourTotal = fourReds + fourGreens + fourBlues + fourGreys;
 // Three Star Unit Numbers
@@ -354,7 +354,7 @@ $("#with-these-orbs-submit").on("click", function() {
 // ----------------------- Functions
 
 function precise(x) {
-    return Number.parseFloat(x).toPrecision(2);
+    return Number.parseFloat(x).toPrecision(3);
 }
 function precise2(x) {
     return Number.parseFloat(x).toPrecision();
@@ -422,15 +422,15 @@ function init() {
     fiveFocusGreys = parseFloat($("#grey-orbs").val())
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
-    fiveReds = 33;
-    fiveGreens = 15;
-    fiveBlues = 20;
-    fiveGreys = 13;
+    fiveReds = 39;
+    fiveGreens = 18;
+    fiveBlues = 25;
+    fiveGreys = 16;
     fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
     // Four Star Unit Numbers
-    fourReds = 31;
+    fourReds = 32;
     fourGreens = 19;
-    fourBlues = 28;
+    fourBlues = 29;
     fourGreys = 28;
     fourTotal = fourReds + fourGreens + fourBlues + fourGreys;
     // Three Star Unit Numbers
