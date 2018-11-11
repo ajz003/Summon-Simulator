@@ -43,4 +43,3 @@ console.log("orig arr.length: " + originalArr.length)
 return (((originalArr.indexOf(midIndex)+1)/originalArr.length)*100)
 
 }
-console.log("resultssssss: " + find(46, testArr))

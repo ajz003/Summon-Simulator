@@ -55,6 +55,37 @@ body {
     padding: 20px;
 }
 
+#last-updated {
+    color: yellow;
+    font-size: 12px;
+}
+
+.about-list-item {
+    font-size: 24px;
+    line-height: 200%;
+    margin-bottom: 20px;
+}
+
+#median {
+    font-weight: bold;
+}
+
+.tooltip-inner {
+    max-width: 200px;
+    padding: 3px 8px;
+    color: black;
+    text-align: center;
+    background-color: yellow;
+    border-radius: .25rem;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=left] .arrow::before, .tooltip.bs-tooltip-left .arrow::before {
+    right: 0;
+    margin-top: -3px;
+    content: "";
+    border-width: 5px 0 5px 5px;
+    border-left-color: yellow;
+}
 
 @media (min-width: 992px) { 
     

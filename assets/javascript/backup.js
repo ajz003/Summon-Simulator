@@ -67,6 +67,11 @@ var totalOrbsArr = [];
 
 // ---------------- jQuery Functions
 
+// Tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
 $(".orb").on("click", function () {
     if ($(this).hasClass("selectedOrb")) {
         $(this).removeClass("selectedOrb");
@@ -240,6 +245,9 @@ $("#summon-button").on("click", function () {
 
 
     $("#median").html(`Median: ${median} orbs`);
+    $("#median").tooltip('hide');
+    $("#median").attr("data-original-title", `You have a 50% chance to get the focus hero within ${median} orbs.`);
+    // $("#median").tooltip('show');
 
 
 

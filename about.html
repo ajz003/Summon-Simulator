@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>About</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="https://ajz003.github.io/Summon-Simulator/">Fire Emblem Summoning Simulator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="https://ajz003.github.io/Summon-Simulator/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://ajz003.github.io/Summon-Simulator/about.html">About</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li> -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid main">
+        <div class="row">
+            <div class="col text-center">
+                <h1>About the Simulator</h1>
+            </div>
+        </div>
+
+
+        <div class="container-fluid" id="orb-picker-container">
+
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        <li class="about-list-item">This simulator uses JavaScript to run the selected number of trials. At the moment, the
+                            maximum number of trials it can run without crashing is around 10000.
+                            The more trials that are run, the more accurate the data.
+                        </li>
+                        <li class="about-list-item">
+                            This simulator uses the "sniping" summoning strategy. For example, if your desired focus hero is Red, the simulator will only open Red orbs 
+                            in the summoning circle. If there are no red orbs available, it will pick a random colored orb and summon that instead before exiting out of that circle. 
+                            Because of this, this summon simulator is only for calculating the chances of getting your desired focus hero, <b>not</b> for getting the chances of getting ANY 
+                            5* hero.
+                        </li>
+                        <li class="about-list-item">
+                            The number of heroes in the pool is updated manually, but the data is not affected in a
+                            large way by the omission of certain heroes from the summoning pool.
+                            From my experience, the standard deviation is around 100 orbs, so your luck varies wildly!
+                        </li>
+                        <li class="about-list-item">
+                            <i>Mean (average) </i>is usually a great measure of central tendency for large datasets,
+                            but the preferred
+                            measure for hero summoning is actually the <b>median</b>. The mean is the best when
+                            assuming a normal distribution, but
+                            our data is skewed right (run a simulation with 100 trials and you can see the skewness in
+                            the histogram at the bottom of the page), which drags the mean
+                            away from its typical value. So you should trust the median more than the mean.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+        <script src="assets/javascript/binary.js"></script>
+        <script src="assets/javascript/backup.js"></script>
+
+</body>
+
+</html>
