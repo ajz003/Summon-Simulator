@@ -271,21 +271,18 @@ $("#summon-button").on("click", function () {
     console.log("Average ± Standard Deviation: " + average + " ± " + std);
     console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
     console.log("Standard Error of the Mean: " + sem);
-    console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
 
-    console.log("90% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
+    console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
     console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
-    console.log("95% chance to get focus (+10): " + 11 * totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
+
 
     let focus90 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)];
     let focus95 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)];
-    let focus9010 = focus90*11;
-    let focus9510 = focus95*11;
+    let focus10 = Math.round(average*11);
 
     $("#focus-90").html(`90% chance to get your focus: ${focus90} orbs`);
     $("#focus-95").html(`95% chance to get focus: ${focus95} orbs`);
-    $("#focus-90-10").html(`90% chance to get focus (+10): ${focus9010} orbs`);
-    $("#focus-95-10").html(`95% chance to get focus (+10): ${focus9510} orbs`);
+    $("#focus-10-average").html(`Average to get focus (+10): ${focus10} orbs`);
 
 
     // Histogram 
