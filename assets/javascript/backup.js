@@ -197,10 +197,12 @@ $("#summon-button").on("click", function () {
 
     targetTrials = $("#trials").val().trim();
     console.log(targetTrials);
+
+
+    // Comment the below line out to see the summons happen in real-time in the console logs
     console.log = function () { };
 
     let checkColor = false;
-
 
     let checkRed = parseFloat($("#red-orbs").val())
     let checkBlue = parseFloat($("#blue-orbs").val())
@@ -391,6 +393,7 @@ function precise2(x) {
 
 // Runs through summoning sessions until target focus is summoned
 function getFocus(snipeColor) {
+
     while (isFocusGot === false) {
         pityCounter = Math.floor(totalSummons / 5);
         console.log("pity counter: " + pityCounter)
@@ -595,8 +598,6 @@ function snipeCircle(targetColor) {
 
     var item = targetColor;
     var colorsArr = ["Red", "Green", "Blue", "Grey"]
-    console.log(circleHiddenArr);
-    console.log(circleArr);
 
     // If the desired color doesn't exist in the summon circle, then:
     if (!circleHiddenArr.includes(item)) {
@@ -672,7 +673,7 @@ function snipeCircle(targetColor) {
                 if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusBlues === focusChecker) {
                     console.log("You got your desired blue focus hero!");
                     isFocusGot = true;
-                    console.log(totalSummons)
+                    console.log("Total heroes pulled: " + totalSummons)
                     break;
                 }
                 else if (circleArr[i] === targetColor + " Five Star Focus") {
@@ -702,12 +703,12 @@ function snipeCircle(targetColor) {
             }
         }
     }
-    console.log("ORBS this circle: " + ORBS);
+    console.log("ORBS spent on this circle: " + ORBS);
 }
 
 // Reduces the orb cost per circle based on how many summons already performed
 function reduceOrbCost() {
-    console.log(orbCost)
+    console.log(orbCost + " orbs spent.")
     if (SUMMONS > 0 && SUMMONS < 4) {
         orbCost = 4;
     } else if (SUMMONS === 4) {
