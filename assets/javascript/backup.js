@@ -174,6 +174,27 @@ $("#grey-up").on("click", function () {
 
 $("#summon-button").on("click", function () {
 
+    let focusRed = $("#red-orbs").val();
+    let focusBlue = $("#blue-orbs").val();
+    let focusGreen = $("#green-orbs").val();
+    let focusGrey = $("#grey-orbs").val();
+
+    console.log(parseInt(focusRed))
+    console.log(parseInt(focusBlue))
+    console.log(parseInt(focusGreen))
+    console.log(parseInt(focusGrey))
+
+    if (parseInt(focusRed) === 0 && parseInt(focusBlue) === 0 && parseInt(focusGreen) === 0 && parseInt(focusGrey) === 0) {
+        $("#error-section").css("visibility", "visible");
+        $("#error-message").html("Please set the number of focus heroes.");
+    } else if(!$(".orb").hasClass("selectedOrb")) {
+        $("#error-section").css("visibility", "visible");
+        $("#error-message").html("Please pick which color orbs you wish to snipe.");
+    }
+    else {
+
+    $("#error-section").css("visibility", "hidden");
+
     targetTrials = $("#trials").val().trim();
     console.log(targetTrials);
     console.log = function () { };
@@ -280,9 +301,9 @@ $("#summon-button").on("click", function () {
     let focus95 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)];
     let focus10 = Math.round(average*11);
 
-    $("#focus-90").html(`90% chance to get your focus: ${focus90} orbs`);
-    $("#focus-95").html(`95% chance to get focus: ${focus95} orbs`);
-    $("#focus-10-average").html(`Average to get focus (+10): ${focus10} orbs`);
+    $("#focus-90").html(`90% chance: ${focus90} orbs`);
+    $("#focus-95").html(`95% chance: ${focus95} orbs`);
+    $("#focus-10-average").html(`Average to get +10: ${focus10} orbs`);
 
 
     // Histogram 
@@ -340,11 +361,14 @@ $("#summon-button").on("click", function () {
 
     Plotly.newPlot('tester', data, layout);
 
-    } if (snipeColor === undefined) {
-        console.log("Pick a color!");
-    } if (checkColor === false) {
-        console.log("Target color is set to 0!")
+    } 
+    
+    if (checkColor === false) {
+        $("#error-section").css("visibility", "visible");
+        $("#error-message").html("The number of focus heroes in your selected color must be greater than 0.");
     }
+
+}
 
 });
 
@@ -427,21 +451,21 @@ function init() {
     fiveFocusGreys = parseFloat($("#grey-orbs").val())
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
-    fiveReds = 39;
-    fiveGreens = 18;
-    fiveBlues = 25;
-    fiveGreys = 16;
+    fiveReds = 40;
+    fiveBlues = 27;
+    fiveGreens = 20;
+    fiveGreys = 17;
     fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
     // Four Star Unit Numbers
     fourReds = 32;
-    fourGreens = 19;
     fourBlues = 29;
+    fourGreens = 19;
     fourGreys = 28;
     fourTotal = fourReds + fourGreens + fourBlues + fourGreys;
     // Three Star Unit Numbers
     threeReds = 28;
-    threeGreens = 18;
     threeBlues = 25;
+    threeGreens = 18;
     threeGreys = 25;
     threeTotal = threeReds + threeGreens + threeBlues + threeGreys;
     // Variables Used to Set Ranges to Intepret Math.random() for Color Picking
