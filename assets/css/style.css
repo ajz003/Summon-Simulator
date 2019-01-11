@@ -10,6 +10,7 @@
 .arrows {
     height: 30px;
     width: auto;
+    cursor: pointer;
 }
 
 @font-face {
@@ -34,6 +35,7 @@ body {
     background-color:black;
 }
 
+
 #summon-button {
     margin-top: 10px;
     margin-bottom: 20px;
@@ -41,8 +43,18 @@ body {
 
 .selectedOrb {
     background-color: gold;
-    border: 3px solid white;
+    border: 5px solid white;
     border-radius: 25px;
+}
+
+.orb-input {
+    width: 2em; 
+    height: 2em;
+}
+
+#trials {
+    width: 4em; 
+    height: 2em;
 }
 
 #histo-holder, 
@@ -87,6 +99,20 @@ body {
     border-left-color: yellow;
 }
 
+#error-section {
+    visibility: hidden;
+}
+
+#error-message {
+    font-size: 12px;
+    color: yellow;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
 @media (min-width: 992px) { 
     
 
@@ -96,6 +122,15 @@ body {
 
     #these-orbs {
         text-align: center;
+    }
+
+    #error-message {
+        font-size: 16px;
+    }
+
+    .orb-input {
+        width: 3em; 
+        height: 2em;
     }
 
 }
