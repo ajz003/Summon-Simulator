@@ -133,4 +133,9 @@ body {
         height: 2em;
     }
 
+    #trials {
+        width: 4em; 
+        height: 2em;
+    }
+
 }
