@@ -380,12 +380,12 @@ $("#summon-button").on("click", function () {
 
 $("#with-these-orbs-submit").on("click", function() {
     if (totalOrbsArr.length > 0) {
-    let orbsHave = parseFloat($("#with-these-orbs").val());
-    console.log("total orbs arr: " + totalOrbsArr)
-    let result = find(orbsHave, totalOrbsArr);
-    $("#with-these-orbs-result").html("Chance to get focus with your amount of orbs: " + result + "%")
+        let orbsHave = parseFloat($("#with-these-orbs").val());
+        console.log("total orbs arr: " + totalOrbsArr)
+        let result = find(orbsHave, totalOrbsArr);
+        $("#with-these-orbs-result").html("Chance to get focus with your amount of orbs: " + result + "%")
     } else {
-    $("#with-these-orbs-result").html("<span class='error'>Please Summon first.</span>")
+        $("#with-these-orbs-result").html("<span class='error'>Please Summon first.</span>")
     }
 
 })
