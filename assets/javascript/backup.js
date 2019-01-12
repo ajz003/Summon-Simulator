@@ -1,13 +1,13 @@
 // ----------------------- Variable Set-up
 // Initial Summon Rates
-var threeRate = 0.36
-var fourRate = 0.58
-var fiveRate = 0.03
-var fiveFocusRate = 0.03
+var threeRate;
+var fourRate;
+var fiveRate;
+var fiveFocusRate;
 
 // Variables Used to Set Ranges to Intepret Math.random() for Rarity Picking
-var fiver = fiveRate + fiveFocusRate
-var fourver = fiver + fourRate
+var anyFiveRate = fiveRate + fiveFocusRate
+var fourAndFiveRate = anyFiveRate + fourRate
 
 // Focus Unit Numbers
 var fiveFocusReds;
@@ -16,33 +16,33 @@ var fiveFocusBlues;
 var fiveFocusGreys;
 var fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
 // Five Star Unit Numbers
-var fiveReds = 39;
-var fiveGreens = 18;
-var fiveBlues = 25;
-var fiveGreys = 16;
+var fiveReds;
+var fiveGreens;
+var fiveBlues;
+var fiveGreys;
 var fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
 // Four Star Unit Numbers
-var fourReds = 32;
-var fourGreens = 19;
-var fourBlues = 29;
-var fourGreys = 28;
+var fourReds;
+var fourGreens;
+var fourBlues;
+var fourGreys;
 var fourTotal = fourReds + fourGreens + fourBlues + fourGreys;
 // Three Star Unit Numbers
-var threeReds = 28;
-var threeGreens = 18;
-var threeBlues = 25;
-var threeGreys = 25;
+var threeReds;
+var threeGreens;
+var threeBlues;
+var threeGreys;
 var threeTotal = threeReds + threeGreens + threeBlues + threeGreys;
 
 // Variables Used to Set Ranges to Intepret Math.random() for Color Picking
-var ffRG = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
-var ffRGB = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
-var fRG = ((fiveReds + fiveGreens) / fiveTotal)
-var fRGB = ((fiveReds + fiveGreens + fiveBlues) / fiveTotal)
-var frRG = ((fourReds + fourGreens) / fourTotal)
-var frRGB = ((fourReds + fourGreens + fourBlues) / fourTotal)
-var tRG = ((threeReds + threeGreens) / threeTotal)
-var tRGB = ((threeReds + threeGreens + threeBlues) / threeTotal)
+var FiveFocusRedGreen = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
+var FivefocusRedGreenBlue = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
+var FiveRedGreen = ((fiveReds + fiveGreens) / fiveTotal)
+var FiveRedGreenBlue = ((fiveReds + fiveGreens + fiveBlues) / fiveTotal)
+var FourRedGreen = ((fourReds + fourGreens) / fourTotal)
+var FourRedGreenBlue = ((fourReds + fourGreens + fourBlues) / fourTotal)
+var ThreeRedGreen = ((threeReds + threeGreens) / threeTotal)
+var ThreeRedGreenBlue = ((threeReds + threeGreens + threeBlues) / threeTotal)
 
 // Arrays to represent the summoning circle
 var circleHiddenArr = [];
@@ -98,7 +98,6 @@ $(".orb").on("click", function () {
             case "grey-orb":
             snipeColor = "Grey";
             break;
-
 
         }
         console.log(snipeColor);
@@ -295,14 +294,19 @@ $("#summon-button").on("click", function () {
     console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
     console.log("Standard Error of the Mean: " + sem);
 
+    console.log("25% chance: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.25)]);
+    console.log("75% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.75)]);
     console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
     console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
 
-
+    let focus25 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.25)];
+    let focus75 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.75)];
     let focus90 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)];
     let focus95 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)];
     let focus10 = Math.round(average*11);
-
+    
+    $("#focus-25").html(`25% chance: ${focus25} orbs`);
+    $("#focus-75").html(`75% chance: ${focus75} orbs`);
     $("#focus-90").html(`90% chance: ${focus90} orbs`);
     $("#focus-95").html(`95% chance: ${focus95} orbs`);
     $("#focus-10-average").html(`Average to get +10: ${focus10} orbs`);
@@ -375,10 +379,15 @@ $("#summon-button").on("click", function () {
 });
 
 $("#with-these-orbs-submit").on("click", function() {
-    var orbsHave = parseFloat($("#with-these-orbs").val());
-    console.log("total orbs arr: " + totalOrbsArr)
-    var result = find(orbsHave, totalOrbsArr);
-    $("#with-these-orbs-result").html("Chance to get focus with your amount of orbs: " + result + "%")
+    if (totalOrbsArr.length > 0) {
+        let orbsHave = parseFloat($("#with-these-orbs").val());
+        console.log("total orbs arr: " + totalOrbsArr)
+        let result = find(orbsHave, totalOrbsArr);
+        $("#with-these-orbs-result").html("Chance to get focus with your amount of orbs: " + result + "%")
+    } else {
+        $("#with-these-orbs-result").html("<span class='error'>Please Summon first.</span>")
+    }
+
 })
 
 
@@ -393,6 +402,8 @@ function precise2(x) {
 
 // Runs through summoning sessions until target focus is summoned
 function getFocus(snipeColor) {
+
+    console.log("snipeColor: " + snipeColor)
 
     while (isFocusGot === false) {
         pityCounter = Math.floor(totalSummons / 5);
@@ -445,8 +456,8 @@ function init() {
     fiveRate = 0.03 + (0.0025 * pityCounter)
     fiveFocusRate = 0.03 + (0.0025 * pityCounter)
     // iables Used to Set Ranges to Intepret Math.random() for Rarity Picking
-    fiver = fiveRate + fiveFocusRate
-    fourver = fiver + fourRate
+    anyFiveRate = fiveRate + fiveFocusRate
+    fourAndFiveRate = anyFiveRate + fourRate
     // Focus Unit Numbers
     fiveFocusReds = parseFloat($("#red-orbs").val())
     fiveFocusGreens = parseFloat($("#green-orbs").val())
@@ -472,14 +483,14 @@ function init() {
     threeGreys = 25;
     threeTotal = threeReds + threeGreens + threeBlues + threeGreys;
     // Variables Used to Set Ranges to Intepret Math.random() for Color Picking
-    ffRG = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
-    ffRGB = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
-    fRG = ((fiveReds + fiveGreens) / fiveTotal)
-    fRGB = ((fiveReds + fiveGreens + fiveBlues) / fiveTotal)
-    frRG = ((fourReds + fourGreens) / fourTotal)
-    frRGB = ((fourReds + fourGreens + fourBlues) / fourTotal)
-    tRG = ((threeReds + threeGreens) / threeTotal)
-    tRGB = ((threeReds + threeGreens + threeBlues) / threeTotal)
+    FiveFocusRedGreen = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
+    FivefocusRedGreenBlue = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
+    FiveRedGreen = ((fiveReds + fiveGreens) / fiveTotal)
+    FiveRedGreenBlue = ((fiveReds + fiveGreens + fiveBlues) / fiveTotal)
+    FourRedGreen = ((fourReds + fourGreens) / fourTotal)
+    FourRedGreenBlue = ((fourReds + fourGreens + fourBlues) / fourTotal)
+    ThreeRedGreen = ((threeReds + threeGreens) / threeTotal)
+    ThreeRedGreenBlue = ((threeReds + threeGreens + threeBlues) / threeTotal)
     // Arrays to represent the summoning circle
     circleHiddenArr = [];
     circleArr = [];
@@ -488,6 +499,22 @@ function init() {
 
     totalOrbsArr = [];
     trials = 0;
+
+    console.log("Five Focus Total: " + fiveFocusTotal)
+    console.log("Five Total: " + fiveTotal)
+    console.log("Four Total: " + fourTotal)
+    console.log("Three Total:  " + threeTotal)
+
+    function conLog(x) {
+        for (let i = 0; i < x.length; i++) {
+            console.log(x[i])
+        }
+    }
+
+    let conArr= [fiveFocusReds/fiveFocusTotal, FiveFocusRedGreen, FivefocusRedGreenBlue, FiveRedGreen, FiveRedGreenBlue, FourRedGreen, FourRedGreenBlue, ThreeRedGreen, ThreeRedGreenBlue]
+
+    conLog(conArr)
+
 }
 
 // Fills an array to represent the Summoning Circle:
@@ -503,88 +530,99 @@ function createSummonCircle() {
     ORBS = 0;
     // Track number of orbs spent in this circle, sets it to 0 everytime a new circle is summoned.
     orbCost = 5;
+    
+    console.log(fiveFocusReds, fiveReds, fourReds, threeReds)
+    console.log(fiveFocusTotal, fiveTotal, fourTotal, threeTotal)
 
     // Fills the arrays with random heroes, picking by rarity first, and then by color
     for (var i = 0; i < 5; i++) {
-        var rarityPick = Math.random()
+        let rarityPick = Math.random()
+
+        console.log("Rarity pick: " + rarityPick)
+
+        // console.log("fiveFocusRate: " + fiveFocusRate)
 
         // By rarity... (this is for Focus Five Stars)
         if (rarityPick <= fiveFocusRate) {
-            var colorPick = Math.random();
+            let colorPick = Math.random();
+            console.log("colorPick: " + colorPick)
             // Then by color..
             if (colorPick < (fiveFocusReds / fiveFocusTotal)) {
                 circleHiddenArr.push("Red")
                 circleArr.push("Red Five Star Focus")
             }
-            if (colorPick >= (fiveFocusReds / fiveFocusTotal) && colorPick < ffRG) {
+            if (colorPick >= (fiveFocusReds / fiveFocusTotal) && colorPick < FiveFocusRedGreen) {
                 circleHiddenArr.push("Green")
                 circleArr.push("Green Five Star Focus")
             }
-            if (colorPick >= ffRG && colorPick < ffRGB) {
+            if (colorPick >= FiveFocusRedGreen && colorPick < FivefocusRedGreenBlue) {
                 circleHiddenArr.push("Blue")
                 circleArr.push("Blue Five Star Focus")
             }
-            if (colorPick >= ffRGB) {
+            if (colorPick >= FivefocusRedGreenBlue) {
                 circleHiddenArr.push("Grey")
                 circleArr.push("Grey Five Star Focus")
             }
         }
         // Same as above, except for Five Star Rarity
-        if (rarityPick > fiveFocusRate && rarityPick <= fiver) {
-            var colorPick = Math.random();
+        if (rarityPick > fiveFocusRate && rarityPick <= anyFiveRate) {
+            let colorPick = Math.random();
+            console.log("colorPick: " + colorPick)
             if (colorPick < (fiveReds / fiveTotal)) {
                 circleHiddenArr.push("Red")
                 circleArr.push("Red Five Star")
             }
-            if (colorPick >= (fiveReds / fiveTotal) && colorPick < fRG) {
+            if (colorPick >= (fiveReds / fiveTotal) && colorPick < FiveRedGreen) {
                 circleHiddenArr.push("Green")
                 circleArr.push("Green Five Star")
             }
-            if (colorPick >= fRG && colorPick < fRGB) {
+            if (colorPick >= FiveRedGreen && colorPick < FiveRedGreenBlue) {
                 circleHiddenArr.push("Blue")
                 circleArr.push("Blue Five Star")
             }
-            if (colorPick >= fRGB) {
+            if (colorPick >= FiveRedGreenBlue) {
                 circleHiddenArr.push("Grey")
                 circleArr.push("Grey Five Star")
             }
         }
         // Same as above, except for Four Star Rarity
-        if (rarityPick > fiver && rarityPick <= fourver) {
-            var colorPick = Math.random();
+        if (rarityPick > anyFiveRate && rarityPick <= fourAndFiveRate) {
+            let colorPick = Math.random();
+            console.log("colorPick: " + colorPick)
             if (colorPick < (fourReds / fourTotal)) {
                 circleHiddenArr.push("Red")
                 circleArr.push("Red Four Star")
             }
-            if (colorPick >= (fourReds / fourTotal) && colorPick < frRG) {
+            if (colorPick >= (fourReds / fourTotal) && colorPick < FourRedGreen) {
                 circleHiddenArr.push("Green")
                 circleArr.push("Green Four Star")
             }
-            if (colorPick >= frRG && colorPick < frRGB) {
+            if (colorPick >= FourRedGreen && colorPick < FourRedGreenBlue) {
                 circleHiddenArr.push("Blue")
                 circleArr.push("Blue Four Star")
             }
-            if (colorPick >= frRGB) {
+            if (colorPick >= FourRedGreenBlue) {
                 circleHiddenArr.push("Grey")
                 circleArr.push("Grey Four Star")
             }
         }
         // Same as above, except for Three Star Rarity
-        if (rarityPick > fourver) {
-            var colorPick = Math.random();
+        if (rarityPick > fourAndFiveRate) {
+            let colorPick = Math.random();
+            console.log("colorPick: " + colorPick)
             if (colorPick < (threeReds / threeTotal)) {
                 circleHiddenArr.push("Red")
                 circleArr.push("Red Three Star")
             }
-            if (colorPick >= (threeReds / threeTotal) && colorPick < tRG) {
+            if (colorPick >= (threeReds / threeTotal) && colorPick < ThreeRedGreen) {
                 circleHiddenArr.push("Green")
                 circleArr.push("Green Three Star")
             }
-            if (colorPick >= tRG && colorPick < tRGB) {
+            if (colorPick >= ThreeRedGreen && colorPick < ThreeRedGreenBlue) {
                 circleHiddenArr.push("Blue")
                 circleArr.push("Blue Three Star")
             }
-            if (colorPick >= tRGB) {
+            if (colorPick >= ThreeRedGreenBlue) {
                 circleHiddenArr.push("Grey")
                 circleArr.push("Grey Three Star")
             }
