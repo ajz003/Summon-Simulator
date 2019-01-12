@@ -32,14 +32,14 @@ function find(orbs, arr) {
             lo = 3
 
         }
-        console.log("test: "+ slicedArr.length)
+        console.log("test: " + slicedArr.length)
     }
     console.log("Final result: " + slicedArr[mid]);
     var midIndex = slicedArr[mid]
-console.log("index of: " + originalArr.indexOf(midIndex))
+    console.log("index of: " + originalArr.indexOf(midIndex))
 
 
-console.log("orig arr.length: " + originalArr.length)
-return (((originalArr.indexOf(midIndex)+1)/originalArr.length)*100)
+    console.log("orig arr.length: " + originalArr.length)
+    return (((originalArr.indexOf(midIndex) + 1) / originalArr.length) * 100)
 
 }
