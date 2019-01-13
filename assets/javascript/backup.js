@@ -54,6 +54,7 @@ var ORBS = 0;
 var j = 0;
 var k = 0;
 var totalSummons = 0;
+var summonsUntilBroken = 0;
 var isFocusGot = false;
 var pityCounter = Math.floor(totalSummons / 5);
 var totalOrbs = 0;
@@ -70,7 +71,27 @@ var totalOrbsArr = [];
 // Tooltips
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-  })
+})
+
+$("#focus-type").on("change", function () {
+
+    let focusType = $("#focus-type").val();
+
+    if (focusType === "legendary") {
+        $("#red-orbs").val(3);
+        $("#green-orbs").val(3);
+        $("#blue-orbs").val(3);
+        $("#grey-orbs").val(3);
+    }
+
+    if (focusType === "hero-fest") {
+        $("#red-orbs").val(1);
+        $("#green-orbs").val(1);
+        $("#blue-orbs").val(1);
+        $("#grey-orbs").val(1);
+    }
+
+})
 
 $(".orb").on("click", function () {
     if ($(this).hasClass("selectedOrb")) {
@@ -84,20 +105,20 @@ $(".orb").on("click", function () {
         switch (color) {
 
             case "red-orb":
-            snipeColor = "Red";
-            break;
+                snipeColor = "Red";
+                break;
 
             case "blue-orb":
-            snipeColor = "Blue";
-            break;
+                snipeColor = "Blue";
+                break;
 
             case "green-orb":
-            snipeColor = "Green";
-            break;
+                snipeColor = "Green";
+                break;
 
             case "grey-orb":
-            snipeColor = "Grey";
-            break;
+                snipeColor = "Grey";
+                break;
 
         }
         console.log(snipeColor);
@@ -183,203 +204,202 @@ $("#summon-button").on("click", function () {
     console.log(parseInt(focusGreen))
     console.log(parseInt(focusGrey))
 
+    // Error Messages
+
     if (parseInt(focusRed) === 0 && parseInt(focusBlue) === 0 && parseInt(focusGreen) === 0 && parseInt(focusGrey) === 0) {
         $("#error-section").css("visibility", "visible");
         $("#error-message").html("Please set the number of focus heroes.");
-    } else if(!$(".orb").hasClass("selectedOrb")) {
+    } else if (!$(".orb").hasClass("selectedOrb")) {
         $("#error-section").css("visibility", "visible");
-        $("#error-message").html("Please pick which color orbs you wish to snipe.");
+        $("#error-message").html("Please pick which color you wish to snipe.");
     }
     else {
 
-    $("#error-section").css("visibility", "hidden");
+        $("#error-section").css("visibility", "hidden");
 
-    targetTrials = $("#trials").val().trim();
-    console.log(targetTrials);
-
-
-    // Comment the below line out to see the summons happen in real-time in the console logs
-    console.log = function () { };
-
-    let checkColor = false;
-
-    let checkRed = parseFloat($("#red-orbs").val())
-    let checkBlue = parseFloat($("#blue-orbs").val())
-    let checkGreen = parseFloat($("#green-orbs").val())
-    let checkGrey = parseFloat($("#grey-orbs").val())
-
-    if (snipeColor === "Red" && checkRed > 0) {
-        checkColor = true;
-    }
-    if (snipeColor === "Blue" && checkBlue > 0) {
-        checkColor = true;
-    }
-    if (snipeColor === "Green" && checkGreen > 0) {
-        checkColor = true;
-    }
-    if (snipeColor === "Grey" && checkGrey > 0) {
-        checkColor = true;
-    }
-
-    if (snipeColor !== undefined && checkColor === true) {
-        console.log("Go for it");
-    
-
-    init();
-    getFocus(snipeColor);
-    console.log(totalOrbsArr);
+        targetTrials = $("#trials").val().trim();
+        console.log(targetTrials);
 
 
+        // Comment the below line out to see the summons happen in real-time in the console logs
+        // console.log = function () { };
 
+        let checkColor = false;
 
+        let checkRed = parseFloat($("#red-orbs").val())
+        let checkBlue = parseFloat($("#blue-orbs").val())
+        let checkGreen = parseFloat($("#green-orbs").val())
+        let checkGrey = parseFloat($("#grey-orbs").val())
 
-    /* ---------------------- APPLICATION ----------------------- */
-
-
-
-
-
-    var sum = totalOrbsArr.reduce((total, amount) => total + amount);
-    var average = totalOrbsArr.reduce((total, amount, index, array) => {
-        total += amount;
-        if (index === totalOrbsArr.length - 1) {
-            return total / totalOrbsArr.length;
-        } else {
-            return total;
+        if (snipeColor === "Red" && checkRed > 0) {
+            checkColor = true;
+        }
+        if (snipeColor === "Blue" && checkBlue > 0) {
+            checkColor = true;
+        }
+        if (snipeColor === "Green" && checkGreen > 0) {
+            checkColor = true;
+        }
+        if (snipeColor === "Grey" && checkGrey > 0) {
+            checkColor = true;
         }
 
-    })
+        if (snipeColor !== undefined && checkColor === true) {
+            console.log("Go for it");
 
 
-    // Statistics
+            init();
+            getFocus(snipeColor);
+            console.log(totalOrbsArr);
 
-    console.log(sum)
+            /* ---------------------- APPLICATION ----------------------- */
 
-    totalOrbsArr = totalOrbsArr.sort((a, b) => a - b);
+            var sum = totalOrbsArr.reduce((total, amount) => total + amount);
+            var average = totalOrbsArr.reduce((total, amount, index, array) => {
+                total += amount;
+                if (index === totalOrbsArr.length - 1) {
+                    return total / totalOrbsArr.length;
+                } else {
+                    return total;
+                }
 
-    console.log(totalOrbsArr)
-    console.log("Minimum: " + totalOrbsArr[0])
-    console.log("Maximum: " + totalOrbsArr[totalOrbsArr.length - 1])
-    console.log("Median: " + totalOrbsArr[Math.floor(totalOrbsArr.length / 2)])
-    let median = totalOrbsArr[Math.floor(totalOrbsArr.length / 2)];
-    console.log("Average orbs spent until focus: " + average)
-
-
-
-    $("#median").html(`Median: ${median} orbs`);
-    $("#median").tooltip('hide');
-    $("#median").attr("data-original-title", `You have a 50% chance to get the focus hero within ${median} orbs.`);
-    // $("#median").tooltip('show');
+            })
 
 
+            // Statistics
 
-    // From https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-225.php
-    const standardDeviation = (arr, usePopulation = false) => {
-        const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
-        return Math.sqrt(
-            arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
-            (arr.length - (usePopulation ? 0 : 1))
-        );
-    };
+            console.log(sum)
 
-    var std = precise(standardDeviation(totalOrbsArr));
+            totalOrbsArr = totalOrbsArr.sort((a, b) => a - b);
 
-    var sem = precise(std / Math.sqrt(targetTrials));
-
-    $("#average").html(`Average (with standard deviation): ${average} ± ${std} orbs`);
-
-    // Statistics Display
-
-    console.log("Average ± Standard Deviation: " + average + " ± " + std);
-    console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
-    console.log("Standard Error of the Mean: " + sem);
-
-    console.log("25% chance: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.25)]);
-    console.log("75% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.75)]);
-    console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
-    console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
-
-    let focus25 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.25)];
-    let focus75 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.75)];
-    let focus90 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)];
-    let focus95 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)];
-    let focus10 = Math.round(average*11);
-    
-    $("#focus-25").html(`25% chance: ${focus25} orbs`);
-    $("#focus-75").html(`75% chance: ${focus75} orbs`);
-    $("#focus-90").html(`90% chance: ${focus90} orbs`);
-    $("#focus-95").html(`95% chance: ${focus95} orbs`);
-    $("#focus-10-average").html(`Average to get +10: ${focus10} orbs`);
+            console.log(totalOrbsArr)
+            console.log("Minimum: " + totalOrbsArr[0])
+            console.log("Maximum: " + totalOrbsArr[totalOrbsArr.length - 1])
+            console.log("Median: " + totalOrbsArr[Math.floor(totalOrbsArr.length / 2)])
+            let median = totalOrbsArr[Math.floor(totalOrbsArr.length / 2)];
+            console.log("Average orbs spent until focus: " + average)
 
 
-    // Histogram 
 
-    var trace = {
-        x: totalOrbsArr,
-        type: 'histogram',
-        autobinx: false,
-        xbins: {
-            end: 500,
-            size: 50,
-            start: 0
+            $("#median").html(`Median: ${median} orbs`);
+            $("#median").tooltip('hide');
+            $("#median").attr("data-original-title", `You have a 50% chance to get the focus hero within ${median} orbs.`);
+            // $("#median").tooltip('show');
+
+
+
+            // From https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-225.php
+            const standardDeviation = (arr, usePopulation = false) => {
+                const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+                return Math.sqrt(
+                    arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+                    (arr.length - (usePopulation ? 0 : 1))
+                );
+            };
+
+            var std = precise(standardDeviation(totalOrbsArr));
+
+            var sem = precise(std / Math.sqrt(targetTrials));
+
+            if (std === "NaN") {
+                $("#average").html(`Average (with standard deviation): ${average} orbs`);
+            } else {
+                $("#average").html(`Average (with standard deviation): ${average} ± ${std} orbs`);
+            }
+
+
+            // Statistics Display
+
+            console.log("Average ± Standard Deviation: " + average + " ± " + std);
+            console.log("Average ± Standard Deviation (for +10): " + average * 11 + " ± " + std * 11);
+            console.log("Standard Error of the Mean: " + sem);
+
+            console.log("25% chance: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.25)]);
+            console.log("75% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.75)]);
+            console.log("90% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)]);
+            console.log("95% chance to get focus: " + totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)]);
+
+            let focus25 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.25)];
+            let focus75 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.75)];
+            let focus90 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.90)];
+            let focus95 = totalOrbsArr[Math.floor(totalOrbsArr.length * 0.95)];
+            let focus10 = Math.round(average * 11);
+
+            $("#focus-25").html(`25% chance: ${focus25} orbs`);
+            $("#focus-75").html(`75% chance: ${focus75} orbs`);
+            $("#focus-90").html(`90% chance: ${focus90} orbs`);
+            $("#focus-95").html(`95% chance: ${focus95} orbs`);
+            $("#focus-10-average").html(`Average to get +10: ${focus10} orbs`);
+
+
+            // Histogram 
+
+            var trace = {
+                x: totalOrbsArr,
+                type: 'histogram',
+                autobinx: false,
+                xbins: {
+                    end: 500,
+                    size: 50,
+                    start: 0
+                }
+            };
+            var data = [trace];
+
+            var layout = {
+                title: 'Orbs to Summon Desired Focus',
+                xaxis: {
+                    title: 'Orbs spent',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'lightgrey'
+                    },
+                    showticklabels: true,
+                    tickangle: 'auto',
+                    tickfont: {
+                        family: 'Old Standard TT, serif',
+                        size: 14,
+                        color: 'black'
+                    },
+                    exponentformat: 'e',
+                    showexponent: 'all'
+                },
+                yaxis: {
+                    title: 'Number in of trials in each group',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'lightgrey'
+                    },
+                    showticklabels: true,
+                    tickangle: 45,
+                    tickfont: {
+                        family: 'Old Standard TT, serif',
+                        size: 14,
+                        color: 'black'
+                    },
+                    exponentformat: 'e',
+                    showexponent: 'all'
+                }
+            };
+
+
+            Plotly.newPlot('tester', data, layout);
+
         }
-    };
-    var data = [trace];
 
-    var layout = {
-        title: 'Orbs to Summon Desired Focus',
-        xaxis: {
-            title: 'Orbs spent',
-            titlefont: {
-                family: 'Arial, sans-serif',
-                size: 18,
-                color: 'lightgrey'
-            },
-            showticklabels: true,
-            tickangle: 'auto',
-            tickfont: {
-                family: 'Old Standard TT, serif',
-                size: 14,
-                color: 'black'
-            },
-            exponentformat: 'e',
-            showexponent: 'all'
-        },
-        yaxis: {
-            title: 'Number in of trials in each group',
-            titlefont: {
-                family: 'Arial, sans-serif',
-                size: 18,
-                color: 'lightgrey'
-            },
-            showticklabels: true,
-            tickangle: 45,
-            tickfont: {
-                family: 'Old Standard TT, serif',
-                size: 14,
-                color: 'black'
-            },
-            exponentformat: 'e',
-            showexponent: 'all'
+        if (checkColor === false) {
+            $("#error-section").css("visibility", "visible");
+            $("#error-message").html("The number of focus heroes in your selected color must be greater than 0.");
         }
-    };
 
-
-    Plotly.newPlot('tester', data, layout);
-
-    } 
-    
-    if (checkColor === false) {
-        $("#error-section").css("visibility", "visible");
-        $("#error-message").html("The number of focus heroes in your selected color must be greater than 0.");
     }
-
-}
 
 });
 
-$("#with-these-orbs-submit").on("click", function() {
-    
+$("#with-these-orbs-submit").on("click", function () {
+
     if (totalOrbsArr.length > 0) {
 
         let orbsHave = parseFloat($("#with-these-orbs").val());
@@ -413,21 +433,47 @@ function getFocus(snipeColor) {
     console.log("snipeColor: " + snipeColor)
 
     while (isFocusGot === false) {
-        pityCounter = Math.floor(totalSummons / 5);
+
+        pityCounter = Math.floor(summonsUntilBroken / 5);
         console.log("pity counter: " + pityCounter)
-        threeRate = 0.36 - (0.001917 * pityCounter)
-        fourRate = 0.58 - (0.003083 * pityCounter)
-        fiveRate = 0.03 + (0.0025 * pityCounter)
-        fiveFocusRate = 0.03 + (0.0025 * pityCounter)
+
+        let focusType = $("#focus-type").val();
+
+        // this is the one that matters
+        switch (focusType) {
+            case "regular":
+                threeRate = 0.36 - ((0.36/(0.36+0.58)) * pityCounter * 0.005);
+                fourRate = 0.58 - ((0.58/(0.36+0.58)) * pityCounter * 0.005);
+                fiveRate = 0.03 + ((0.03/(0.03+0.03)) * pityCounter * 0.005);
+                fiveFocusRate = 0.03 + ((0.03/(0.03+0.03)) * pityCounter * 0.005);
+                break;
+            case "legendary":
+                threeRate = 0.34 - ((0.34/(0.34+0.58)) * pityCounter * 0.005);
+                fourRate = 0.58 - ((0.58/(0.34+0.58)) * pityCounter * 0.005);
+                fiveRate = 0;
+                fiveFocusRate = 0.08 + ((0.08/(0.08+0)) * pityCounter * 0.005);
+                break;
+            case "hero-fest":
+                threeRate = 0.34 - ((0.34/(0.34+0.58)) * pityCounter * 0.005);
+                fourRate = 0.58 - ((0.58/(0.34+0.58)) * pityCounter * 0.005);
+                fiveRate = 0.03 + ((0.03/(0.03+0.05)) * pityCounter * 0.005);
+                fiveFocusRate = 0.05 + ((0.05/(0.03+0.05)) * pityCounter * 0.005);
+                break;
+
+        }
+
+        console.log("--------------")
         console.log("threerate: " + threeRate)
         console.log("fourrate: " + fourRate)
         console.log("fiverate: " + fiveRate)
         console.log("fiveFocusrate: " + fiveFocusRate)
+        console.log("--------------")
         createSummonCircle();
         console.log(circleArr);
         console.log(circleHiddenArr);
         snipeCircle(snipeColor);
         totalSummons += SUMMONS;
+        summonsUntilBroken += SUMMONS;
         totalOrbs += ORBS;
         j++;
         console.log("Total Summons: " + totalSummons)
@@ -450,6 +496,7 @@ function reset() {
     isFocusGot = false;
     totalOrbs = 0;
     totalSummons = 0;
+    summonsUntilBroken = 0;
     fiveFocusReds = parseFloat($("#red-orbs").val())
     fiveFocusGreens = parseFloat($("#green-orbs").val())
     fiveFocusBlues = parseFloat($("#blue-orbs").val())
@@ -457,12 +504,37 @@ function reset() {
 }
 
 function init() {
-    // Initial Summon Rates
-    threeRate = 0.36 - (0.001917 * pityCounter)
-    fourRate = 0.58 - (0.003083 * pityCounter)
-    fiveRate = 0.03 + (0.0025 * pityCounter)
-    fiveFocusRate = 0.03 + (0.0025 * pityCounter)
-    // iables Used to Set Ranges to Intepret Math.random() for Rarity Picking
+
+    reset();
+
+    let focusType = $("#focus-type").val();
+
+    // this switch just sets the rates as numbers
+    switch (focusType) {
+        case "regular":
+            threeRate = 0.36 - (0.0019125 * pityCounter);
+            fourRate = 0.58 - (0.0030875 * pityCounter);
+            fiveRate = 0.03 + (0.0025 * pityCounter);
+            fiveFocusRate = 0.03 + (0.0025 * pityCounter);
+            break;
+        case "legendary":
+            threeRate = 0.36 - (0.00184 * pityCounter);
+            fourRate = 0.58 - (0.00316 * pityCounter);
+            fiveRate = 0;
+            fiveFocusRate = 0.08 + (0.005 * pityCounter);
+            break;
+        case "hero-fest":
+            threeRate = 0.34 - (0.0019125 * pityCounter);
+            fourRate = 0.58 - (0.0030875 * pityCounter);
+            fiveRate = 0.03 + (0.0025 * pityCounter);
+            fiveFocusRate = 0.05 + (0.0025 * pityCounter);
+            break;
+
+    }
+
+    console.log(threeRate, fourRate, fiveRate, fiveFocusRate)
+
+    // Variables Used to Set Ranges to Intepret Math.random() for Rarity Picking
     anyFiveRate = fiveRate + fiveFocusRate
     fourAndFiveRate = anyFiveRate + fourRate
     // Focus Unit Numbers
@@ -518,7 +590,7 @@ function init() {
         }
     }
 
-    let conArr= [fiveFocusReds/fiveFocusTotal, FiveFocusRedGreen, FivefocusRedGreenBlue, FiveRedGreen, FiveRedGreenBlue, FourRedGreen, FourRedGreenBlue, ThreeRedGreen, ThreeRedGreenBlue]
+    let conArr = [fiveFocusReds / fiveFocusTotal, FiveFocusRedGreen, FivefocusRedGreenBlue, FiveRedGreen, FiveRedGreenBlue, FourRedGreen, FourRedGreenBlue, ThreeRedGreen, ThreeRedGreenBlue]
 
     conLog(conArr)
 
@@ -527,29 +599,22 @@ function init() {
 // Fills an array to represent the Summoning Circle:
 function createSummonCircle() {
 
-    // This circleHiddenArr array only shows the summon colors, but...
     circleHiddenArr = [];
-    // This circleArr array contains the color, rarity, and whether it is a focus unit or not.
     circleArr = [];
-    // Track number of summons from this circle, sets it to 0 everytime a new circle is summoned.
     SUMMONS = 0;
+
     // Track number of orbs spent in this circle, sets it to 0 everytime a new circle is summoned.
     ORBS = 0;
-    // Track number of orbs spent in this circle, sets it to 0 everytime a new circle is summoned.
+
     orbCost = 5;
-    
-    console.log(fiveFocusReds, fiveReds, fourReds, threeReds)
-    console.log(fiveFocusTotal, fiveTotal, fourTotal, threeTotal)
 
     // Fills the arrays with random heroes, picking by rarity first, and then by color
     for (var i = 0; i < 5; i++) {
+
         let rarityPick = Math.random()
 
-        console.log("Rarity pick: " + rarityPick)
-
-        // console.log("fiveFocusRate: " + fiveFocusRate)
-
         // By rarity... (this is for Focus Five Stars)
+
         if (rarityPick <= fiveFocusRate) {
             let colorPick = Math.random();
             console.log("colorPick: " + colorPick)
@@ -681,6 +746,7 @@ function snipeCircle(targetColor) {
                 }
                 else if (circleArr[i] === targetColor + " Five Star Focus") {
                     console.log("You got an undesired green focus hero!")
+                    summonsUntilBroken = 0;
                 }
             }
         }
@@ -702,6 +768,7 @@ function snipeCircle(targetColor) {
                 }
                 else if (circleArr[i] === targetColor + " Five Star Focus" && fiveFocusReds !== focusChecker) {
                     console.log("You got an undesired red focus hero!")
+                    summonsUntilBroken = 0;
                 }
             }
         }
@@ -723,6 +790,7 @@ function snipeCircle(targetColor) {
                 }
                 else if (circleArr[i] === targetColor + " Five Star Focus") {
                     console.log("You got an undesired blue focus hero!")
+                    summonsUntilBroken = 0;
                 }
             }
         }
@@ -744,6 +812,7 @@ function snipeCircle(targetColor) {
                 }
                 else if (circleArr[i] === targetColor + " Five Star Focus") {
                     console.log("You got an undesired grey focus hero!")
+                    summonsUntilBroken = 0;
                 }
             }
         }
