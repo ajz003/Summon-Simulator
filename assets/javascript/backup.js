@@ -222,7 +222,7 @@ $("#summon-button").on("click", function () {
 
 
         // Comment the below line out to see the summons happen in real-time in the console logs
-        // console.log = function () { };
+        console.log = function () { };
 
         let checkColor = false;
 
