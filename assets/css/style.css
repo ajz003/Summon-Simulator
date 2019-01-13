@@ -18,6 +18,19 @@
     src: url('../fonts/Fire_Emblem_Heroes_Font.ttf') format('truetype');
   }
 
+.orb {
+    width: 100%;
+    box-sizing: content-box;
+    border: 3px solid transparent;
+    border-radius: 25px;
+}
+
+.arrows {
+    height: 30px;
+    width: auto;
+    cursor: pointer;
+}
+
 h1 {
       font-family: 'main', Arial, Helvetica, sans-serif;
       color: gold;
