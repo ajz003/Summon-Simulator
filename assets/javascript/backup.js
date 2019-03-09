@@ -544,10 +544,10 @@ function init() {
     fiveFocusGreys = parseFloat($("#grey-orbs").val())
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
-    fiveReds = 41;
-    fiveBlues = 28;
-    fiveGreens = 21;
-    fiveGreys = 18;
+    fiveReds = 42;
+    fiveBlues = 29;
+    fiveGreens = 22;
+    fiveGreys = 19;
     fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
     // Four Star Unit Numbers
     fourReds = 32;
