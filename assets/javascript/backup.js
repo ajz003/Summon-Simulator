@@ -220,7 +220,6 @@ $("#summon-button").on("click", function () {
         targetTrials = $("#trials").val().trim();
         console.log(targetTrials);
 
-
         // Comment the below line out to see the summons happen in real-time in the console logs
         console.log = function () { };
 
@@ -534,6 +533,19 @@ function init() {
 
     console.log(threeRate, fourRate, fiveRate, fiveFocusRate)
 
+
+    // Determine if the 47 snapped Heroes are in the 5* pool or not (Thanks Feh)
+    let fiveRedsCulled = 0;
+    let fiveBluesCulled = 0;
+    let fiveGreensCulled = 0;
+    let fiveGreysCulled = 0;
+    if($("#new-special-check").is(":checked")){
+        fiveRedsCulled = 20;
+        fiveBluesCulled = 11;
+        fiveGreensCulled = 8;
+        fiveGreysCulled = 8;
+    }
+
     // Variables Used to Set Ranges to Intepret Math.random() for Rarity Picking
     anyFiveRate = fiveRate + fiveFocusRate
     fourAndFiveRate = anyFiveRate + fourRate
@@ -544,10 +556,10 @@ function init() {
     fiveFocusGreys = parseFloat($("#grey-orbs").val())
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
-    fiveReds = 42;
-    fiveBlues = 29;
-    fiveGreens = 22;
-    fiveGreys = 19;
+    fiveReds = 38 - fiveRedsCulled;
+    fiveBlues = 25 - fiveBluesCulled;
+    fiveGreens = 24 - fiveGreensCulled;
+    fiveGreys = 16 - fiveGreysCulled;
     fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
     // Four Star Unit Numbers
     fourReds = 32;
@@ -556,11 +568,12 @@ function init() {
     fourGreys = 28;
     fourTotal = fourReds + fourGreens + fourBlues + fourGreys;
     // Three Star Unit Numbers
-    threeReds = 28;
-    threeBlues = 25;
-    threeGreens = 18;
-    threeGreys = 25;
+    threeReds = 32;
+    threeBlues = 29;
+    threeGreens = 19;
+    threeGreys = 28;
     threeTotal = threeReds + threeGreens + threeBlues + threeGreys;
+
     // Variables Used to Set Ranges to Intepret Math.random() for Color Picking
     FiveFocusRedGreen = ((fiveFocusReds + fiveFocusGreens) / fiveFocusTotal)
     FivefocusRedGreenBlue = ((fiveFocusReds + fiveFocusGreens + fiveFocusBlues) / fiveFocusTotal)
