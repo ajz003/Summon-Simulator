@@ -539,7 +539,7 @@ function init() {
     let fiveBluesCulled = 0;
     let fiveGreensCulled = 0;
     let fiveGreysCulled = 0;
-    if($("#new-special-check").is(":checked")){
+    if( $("#new-special-check").is(":checked") ) {
         fiveRedsCulled = 20;
         fiveBluesCulled = 11;
         fiveGreensCulled = 8;
@@ -556,10 +556,10 @@ function init() {
     fiveFocusGreys = parseFloat($("#grey-orbs").val())
     fiveFocusTotal = fiveFocusReds + fiveFocusGreens + fiveFocusBlues + fiveFocusGreys;
     // Five Star Unit Numbers
-    fiveReds = 38 - fiveRedsCulled;
-    fiveBlues = 25 - fiveBluesCulled;
+    fiveReds = 40 - fiveRedsCulled;
+    fiveBlues = 27 - fiveBluesCulled;
     fiveGreens = 24 - fiveGreensCulled;
-    fiveGreys = 16 - fiveGreysCulled;
+    fiveGreys = 17 - fiveGreysCulled;
     fiveTotal = fiveReds + fiveGreens + fiveBlues + fiveGreys;
     // Four Star Unit Numbers
     fourReds = 32;
