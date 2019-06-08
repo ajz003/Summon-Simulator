@@ -9,3 +9,7 @@ Simulates summoning new heroes in the mobile game Fire Emblem Heroes. Ideally, i
 ## Authors
 
 * **ajz003**
+
+### Note
+
+I've quit Fire Emblem Heroes, so any changes to summoning as of 5-19-2019 will not be accounted for. Any people who would like to maintain the codebase can feel free to make pull requests.
